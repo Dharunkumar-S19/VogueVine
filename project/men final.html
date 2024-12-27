@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>VogueVine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000000;
+            color: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000000;
+            color: cyan;
+            padding: 15px 20px;
+            border-bottom: 2px solid cyan;
+        }
+
+        .header-left h1 {
+            font-size: 26px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: cyan;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            padding: 8px;
+            border: 2px solid cyan;
+            border-radius: 5px;
+            background-color: #111;
+            color: cyan;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            padding: 8px 15px;
+            background-color: cyan;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #00b3b3;
+        }
+
+        .category-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .category-button {
+            background-color: cyan;
+            color: black;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .category-button:hover {
+            background-color: #00b3b3;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            overflow-y: auto;
+            max-height: calc(100vh - 150px);
+        }
+
+        .category {
+            margin-bottom: 40px;
+            display: none; /* Initially hide all categories */
+        }
+
+        .category h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: cyan;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .col {
+            width: 23%; /* Adjusted to show 4 items per row */
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #000000;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .col img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .col:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 255, 255, 0.3);
+            cursor: pointer;
+        }
+
+        .rating {
+            margin: 10px 0;
+            font-size: 18px;
+            color: gold;
+        }
+
+        .btn {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .buy-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .cart-btn {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #000000;
+            color: cyan;
+            border-top: 2px solid cyan;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>VogueVine</h1>
+        </div>
+        <div class="header-right">
+            <input type="text" placeholder="Search for products..." class="search-bar" id="search-bar">
+            <button class="search-button" onclick="searchProducts()">&#128269;</button>
+        </div>
+    </header>
+
+    <div class="category-buttons">
+        <button class="category-button" onclick="filterCategory('all')">All</button>
+        <button class="category-button" onclick="filterCategory('shirts')">Shirts</button>
+        <button class="category-button" onclick="filterCategory('pants')">Pants</button>
+        <button class="category-button" onclick="filterCategory('tshirts')">T-Shirts</button>
+        <button class="category-button" onclick="filterCategory('tracks')">Tracks</button>
+        <button class="category-button" onclick="filterCategory('accessories')">Accessories</button>
+    </div>
+
+    <div class="container" id="product-container">
+        <!-- Categories will be generated dynamically here -->
+    </div>
+
+    <footer>
+        <p>&copy; 2024 VogueVine | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <script>
+         const products = {
+            shirts: {
+                casuals: [
+                    { name: "IKON FASHION", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20241109/qHaE/672e8ecbf9b8ef490b10250a/-473Wx593H-700628392-brown-MODEL4.jpg" },
+                    { name: "QUELEA", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20241126/n4QF/6745e25d0f47f80c87ad3975/-473Wx593H-700810029-aqua-MODEL.jpg" },
+                    { name: "REV-VERSE", price: 27.99, img: "https://assets.ajio.com/medias/sys_master/root/20241015/ZHl7/670e45ddf9b8ef490bbaa18c/-473Wx593H-443044025-beige-MODEL.jpg" },
+                    { name: "Checked Slim Fit Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20230821/LwEJ/64e35254ddf7791519565465/-473Wx593H-442319607-grey-MODEL.jpg" },
+                    { name: "CAMPUS SUTRA", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20240717/hKmD/6696cfb31d763220fac97f29/-473Wx593H-463775643-blue-MODEL.jpg" },
+                    { name: "YOUSTA", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20241023/a6XI/6718de83260f9c41e89562ce/-473Wx593H-442696571-red-MODEL.jpg" },
+                    { name: "URBAN BUCCACHI", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20241104/xkqm/672821c3f9b8ef490bfd6960/-473Wx593H-700673874-grey-MODEL.jpg" },
+                    { name: "THE INDIAN GARAGE Stretch Long-Sleeve Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20241210/wesh/675845e8c148fa1b302b1869/-473Wx593H-410457805-02a-MODEL.jpg" }
+                ],
+                formals: [
+                    { name: "THE FORMAL CLUB", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20240612/kioV/666982dd16fd2c6e6abbeef2/-473Wx593H-700076783-coffee-MODEL.jpg" },
+                    { name: "Regular Fit Spread-Collar Shirt", price: 45.99, img: "https://assets.ajio.com/medias/sys_master/root/20240814/gjvB/66bbcf526f60443f3107466e/-473Wx593H-700286737-white-MODEL2.jpg" },
+                    { name: "Solid Relaxed Fit Shirt", price: 52.99, img: "https://assets.ajio.com/medias/sys_master/root/20240318/TH0a/65f86cc305ac7d77bbc26ce8/-473Wx593H-467180746-burgundy-MODEL.jpg" },
+                    { name: "Relaxed Fit Shirt with Spread Collar", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240519/JIeN/66497e6716fd2c6e6a11a57d/-473Wx593H-467180753-beige-MODEL.jpg" },
+                    { name: "Men Relaxed Fit Shirt with Spread Collar", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240519/L20f/66497e5a05ac7d77bb6661c1/-473Wx593H-467180757-grey-MODEL.jpg" },
+                    { name: "Stripes Relaxed Fit Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240318/zPPS/65f8458105ac7d77bbc15be3/-473Wx593H-467180767-green-MODEL.jpg" },
+                    { name: "Fit Shirt with Patch-Pocket", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240617/DU2c/666fce901d763220fac340b9/-473Wx593H-700076749-black-MODEL.jpg" },
+                    { name: "Heathered Regular Fit Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240318/hpbi/65f8424f05ac7d77bbc0fbaa/-473Wx593H-467180752-blue-MODEL.jpg" }
+                ]
+            },
+            pants: {
+                formals: [
+                    { name: "Men Slim Fit Flat-Front Trousers", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20241025/5oL8/671b49d5f9b8ef490bdf47c0/-473Wx593H-700640293-black-MODEL.jpg" },
+                    { name: "Men Checked Regular Fit Flat-Front Trousers", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240813/PBGK/66bb6e491d763220fa785090/-473Wx593H-443047446-ltgrey-MODEL.jpg" },
+                    { name: "Men Checkered Relaxed Fit Trousers", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240108/S71F/659c2a8174cb305fe00b294d/-473Wx593H-466960283-brown-MODEL.jpg" },
+                    { name: "Men Slim Fit Flat-Front Chinos", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240807/UVG5/66b382956f60443f31f3ef2c/-473Wx593H-443039115-ltgrey-MODEL.jpg" },
+                    { name: "Slim Fit Flat-Front Trousers", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240314/2Ifw/65f31f5316fd2c6e6a5d24a1/-473Wx593H-469316695-teal-MODEL.jpg" },
+                    { name: "Men Regular Fit Flat-Front Chinos", price: 69.99, img: "https://assets.ajio.com/medias/sys_master/root/20240806/PxzT/66b2418d1d763220fa636ad9/-473Wx593H-443049564-brown-MODEL.jpg" },
+                    { name: "Slim Fit Pants with Insert Pockets", price: 64.99, img: "https://assets.ajio.com/medias/sys_master/root/20230907/N0jF/64f9d116ddf7791519c34154/-473Wx593H-466545387-blue-MODEL.jpg" },
+                    { name: "Men Heathered Slim Fit Flat-Front Chinos", price: 62.99, img: "https://assets.ajio.com/medias/sys_master/root/20230621/msYK/6493286542f9e729d776cb72/-473Wx593H-469518020-olive-MODEL.jpg" }
+                ],
+                Jeans: [
+                    { name: "U.S. POLO ASSN", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240724/jfvz/66a10efe1d763220fa1c34b6/-473Wx593H-469625868-blue-MODEL4.jpg" },
+                    { name: "Men 512 Lightly Washed Slim Tapered Fit Jeans", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240521/0hjP/664c7db205ac7d77bb6a7301/-473Wx593H-442601771-olive-MODEL.jpg" },
+                    { name: "Men Slim Fit Jeans", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20241119/pJl1/673c5adf0f47f80c8795cc77/-473Wx593H-442700006-grey-MODEL.jpg" },
+                    { name: "Men Relaxed Fit Jeans with Insert Pockets", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20241104/RS7J/6728f7f2f9b8ef490b0156ba/-473Wx593H-700703821-black-MODEL.jpg" },
+                    { name: "Men Straight Jeans with 5-Pocket Styling", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240704/S9qx/668723956f60443f31702042/-473Wx593H-700162326-grey-MODEL.jpg" },
+                    { name: "SWashed Joggers with Drawstring Waist", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20230728/kljb/64c3b03ba9b42d15c9779634/-473Wx593H-469157897-lightblue-MODEL.jpg" },
+                    { name: "Men Light-Wash Baggy Fit Jeans", price: 39.99, img: "https://assets.ajio.com/medias/sys_master/root/20230410/STNZ/6433e5c6711cf97ba7180bbc/-473Wx593H-443005671-darkblue-MODEL.jpg" },
+                    { name: "Relaxed Fit Jeans with Flap Pockets", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20231127/7n8l/6564c28bddf7791519a081b0/-473Wx593H-466830060-black-MODEL.jpg" }
+                ]
+            },
+            tshirts: {
+                casuals: [
+                    { name: "Colourblock Polo with Ribbed Hem", price: 19.99, img: "https://assets.ajio.com/medias/sys_master/root/20230624/3nRu/64963174a9b42d15c9d5beab/-473Wx593H-466304951-blue-MODEL2.jpg" },
+                    { name: "Men Colour-block Regular Fit Polo T-shirt", price: 18.99, img: "https://assets.ajio.com/medias/sys_master/root/20241112/TzcZ/67337c76f9b8ef490b183cf1/-473Wx593H-700729462-olive-MODEL.jpg" },
+                    { name: "Men Typographic Print Regular Fit Polo T-Shirt", price: 22.99, img: "https://assets.ajio.com/medias/sys_master/root/20240716/JNFK/6696af6e1d763220fac8bc58/-473Wx593H-700051856-beige-MODEL.jpg" },
+                    { name: "Men Regular Fit Crew-Neck T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20241119/uXDZ/673c68ed0f47f80c8795db63/-473Wx593H-443061825-lilac-MODEL.jpg" },
+                    { name: "Men Typographic Crew-Neck T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240715/KkmL/669559d81d763220fab71f41/-473Wx593H-443056271-darkblue-MODEL.jpg" },
+                    { name: "Men Regular Fit Crew-Neck T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20241118/xU3v/673b27950f47f80c8792b32e/-473Wx593H-443061825-offwhite-MODEL.jpg" },
+                    { name: "Men Floral Print Boxy Fit Crew-Neck T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240718/i3YV/66989b471d763220fae2839a/-473Wx593H-443052498-ecru-MODEL.jpg" },
+                    { name: "Men Regular Fit Crew-Neck T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20241118/UCbP/673b27660f47f80c8792b17c/-473Wx593H-443061825-teal-MODEL.jpg" },
+                ],
+                sports: [
+                    { name: "Men Printed Slim Fit Crew-Neck T-Shirt", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20240904/um2i/66d83a496f60443f3152d492/-473Wx593H-700370399-red-MODEL.jpg" },
+                    { name: "Regular Fit Crew-Neck T-Shirt with Placement Logo", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20240320/OXwn/65fac8dc05ac7d77bbcb6596/-473Wx593H-441128501-darkgrey-MODEL.jpg" },
+                    { name: "Crew-Neck T-Shirt with Short Sleeves", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/dWGq/66e789b86f60443f317e26e6/-473Wx593H-700424757-blue-MODEL.jpg" },
+                    { name: "Men Logo Print Slim Fit Crew-Neck T-Shirt", price: 37.99, img: "https://assets.ajio.com/medias/sys_master/root/20240904/JGDO/66d862d36f60443f315451de/-473Wx593H-700368547-grey-MODEL.jpg" }
+                ],
+                hoddy: [
+                    { name: "Men Typographic Hoodie", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20241118/csNp/673b6cbbc148fa1b30d4a51c/-473Wx593H-700772623-wine-MODEL.jpg" },
+                    { name: "Men Others Hoodie", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/ybuL/66e736e21d763220fae8c3f0/-473Wx593H-700427827-brown-MODEL.jpg" },
+                    { name: "Men Regular Fit Zip-Front Hooded Sweatshirt", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20241122/Etad/6740154b0f47f80c879e507f/-473Wx593H-700784078-black-MODEL.jpg" },
+                    { name: "Men Printed Regular Fit Hoodie", price: 37.99, img: "https://assets.ajio.com/medias/sys_master/root/20231218/dUE3/65804ba5ddf7791519d54e4e/-473Wx593H-466892913-beige-MODEL.jpg" },
+                    { name: "Men Zip-Up Oversized Fit Sweatshirt", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/TnhP/66e7deac1d763220faeb92f3/-473Wx593H-700424666-navy-MODEL.jpg" },
+                    { name: "Men Oversized Fit Hoodie with Kangaroo Pocket", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20241205/M8uy/67516d050f47f80c87d955e4/-473Wx593H-700880795-brown-MODEL.jpg" },
+                    { name: "Men Graphic Print Regular Fit Hoodie", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20241213/WA5A/675b65da0f47f80c87f643cf/-473Wx593H-700916366-beige-MODEL.jpg" },
+                    { name: "Slim Fit Zip-Front Hoodie with Kangaroo Pockets", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20230602/5TXy/647958ded55b7d0c633bfd39/-473Wx593H-461698913-green-MODEL.jpg" }
+                ]
+            },
+            tracks: {
+                casualspants : [
+                    { name: "Men Regular Fit Cargo Joggers", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20241210/gtCO/67581cb90f47f80c87eb32f1/-473Wx593H-443044040-olive-MODEL.jpg" },
+                    { name: "Men Fastdry Active Panelled Track Pants", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20240320/Trv2/65fac8d316fd2c6e6a714521/-473Wx593H-441128505-ltblue-MODEL.jpg" },
+                    { name: "Men Track Pants with Insert Pockets", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20240806/VsCX/66b227a91d763220fa62cc7f/-473Wx593H-441139592-jetblack-MODEL.jpg" },
+                    { name: "Men Regular Fit Tracksuit with Contrast Tapping", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20231214/owcV/657a593eddf7791519cbdeeb/-473Wx593H-466885139-black-MODEL.jpg" },
+                    { name: "Men Joggers with Insert Pockets", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20240821/D8iM/66c5d1311d763220fa8b1513/-473Wx593H-443052762-beige-MODEL.jpg" },
+                    { name: "Men Joggers with Insert Pockets", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20240909/jXyH/66ded0aa1d763220fad2aad6/-473Wx593H-443052762-teal-MODEL.jpg" },
+                    { name: "Pack of 2 Men Straight Track Pants", price: 22.99, img: "https://assets.ajio.com/medias/sys_master/root/20240730/EiXg/66a7ee7d6f60443f31d6f2bd/-473Wx593H-700243173-black-MODEL.jpg" },
+                    { name: "Men Mid-Rise Track Pants with Elasticated Drawstringk", price: 27.99, img: "https://assets.ajio.com/medias/sys_master/root/20240911/h21w/66e158aa6f60443f316e2c98/-473Wx593H-700388356-blue-MODEL6.jpg" }
+                ],
+                shorts: [
+                    { name: "Men Printed Regular Fit Shorts", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240809/f2R0/66b5aacd6f60443f31fa5db0/-473Wx593H-443054698-jetblack-MODEL.jpg" },
+                    { name: "Men Printed Regular Fit Short", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240516/4seb/6645b78105ac7d77bb6116a3/-473Wx593H-443037042-olive-MODEL.jpg" },
+                    { name: "Men Regular Fit Shorts with Zipper Pockets", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240830/WXgP/66d181a51d763220faafa312/-473Wx593H-442684557-jetblack-MODEL.jpg" },
+                    { name: "New Core Varsity Logo Print Knit Shorts", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20220917/sQEE/6324cc5baeb269dbb39136e7/-473Wx593H-441137105-khaki-MODEL4.jpg" }
+                ]
+            },
+            accessories:{
+                watches:  [
+                    { name: "TITAN Men Techno Beats", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240522/s15e/664df81316fd2c6e6a1bfadc/-473Wx593H-4934048920-multi-MODEL.jpg" },
+                    { name: "SKYLONA Chronograph Wrist Watch with Meshed Strap", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20230930/YI2E/651750ddddf7791519103694/-473Wx593H-466652259-black-MODEL.jpg" },
+                    { name: "CASIO Enticer Men Analog Wrist Watch", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20221221/ptfA/63a32c38aeb269659cffe989/-473Wx593H-460812859-black-MODEL.jpg" },
+                    { name: "Men Enticer Analogue Wrist Watch- MTP-1302D", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20210128/gDcs/6011bda8aeb26969815802d5/-473Wx593H-460812875-black-MODEL.jpg" },
+                    { name: "Men Analogue Brown Watch - ME3219", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240606/JQbS/6661ba4c05ac7d77bba37adc/-473Wx593H-469170558-brown-MODEL.jpg" },
+                    { name: "Men Regalia Maritime Analogue Watch - NS1829QL01", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20240529/8G7I/6656e31516fd2c6e6a376670/-473Wx593H-4934046420-multi-MODEL.jpg" },
+                    { name: "LORENZ Men Round-Dial Wrist Watch", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20240205/XA7B/65c1107216fd2c6e6adb7f20/-473Wx593H-467044040-white-MODEL.jpg" },
+                    { name: "GIORDANO Analogue Watch-GZ-50098-02", price: 69.99, img: "https://assets.ajio.com/medias/sys_master/root/20241006/B1Qf/6702999af9b8ef490b9b8bb5/-473Wx593H-700546861-black-MODEL.jpg" }
+                ],
+                perfumes:  [
+                    { name: "AJMAL Unisex Ascend Oriental Perfume", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20230925/m6Hr/65114706afa4cf41f5019e99/-473Wx593H-4939125930-multi-MODEL.jpg" },
+                    { name: "BELLA VITA ORGANIC Organic White Oud Unisex Perfume", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20240515/n1uO/6644910a16fd2c6e6a076d0f/-473Wx593H-4924946030-multi-MODEL.jpg" },
+                    { name: "WILD STONE Hydra Energy Eau De Parfum ", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20240905/IN4q/66d9911a6f60443f3158f304/-473Wx593H-4913924190-multi-MODEL.jpg" },
+                    { name: "RENEE Bloom Eau De Parfum", price: 69.99, img: "https://assets.ajio.com/medias/sys_master/root/20230807/sQzg/64d0d980a9b42d15c991bfa3/-473Wx593H-4936812620-multi-MODEL.jpg" }
+                ]
+            }
+        };
+
+        function generateProducts(category) {
+            const container = document.getElementById('product-container');
+            container.innerHTML = '';
+            const categories = Object.keys(products);
+
+            categories.forEach(cat => {
+                if (typeof products[cat] === 'object' && !Array.isArray(products[cat])) {
+                    const subcategories = Object.keys(products[cat]);
+                    subcategories.forEach(subcat => {
+                        const section = document.createElement('section');
+                        section.classList.add('category');
+                        section.classList.add(`${cat}-${subcat}`);
+                        section.style.display = category === 'all' || category === cat || category === `${cat}-${subcat}` ? 'block' : 'none';
+
+                        section.innerHTML = `
+                            <h2>${cat.charAt(0).toUpperCase() + cat.slice(1)} - ${subcat.charAt(0).toUpperCase() + subcat.slice(1)}</h2>
+                            <div class="row">
+                                ${products[cat][subcat].map(item => `
+                                    <div class="col">
+                                        <a href="men-details.html?id=${encodeURIComponent(item.name)}">
+                                            <img src="${item.img}" alt="${item.name}">
+                                            <h3>${item.name}</h3>
+                                        </a>
+                                        <p class="price">$${item.price.toFixed(2)}</p>
+                                        <p class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</p>
+                                        <button class="btn buy-btn" style="background-color: cyan; color: black;" onclick="redirectToItemDetails('${item.name}')">Buy Now</button>
+                                        <button class="btn cart-btn" style="background-color: cyan; color: black;"onclick="redirectToItemDetails('${item.name}')">Add to Cart</button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                        container.appendChild(section);
+                    });
+                } else {
+                    const section = document.createElement('section');
+                    section.classList.add('category');
+                    section.classList.add(cat);
+                    section.style.display = category === 'all' || category === cat ? 'block' : 'none';
+
+                    section.innerHTML = `
+                        <h2>${cat.charAt(0).toUpperCase() + cat.slice(1)}</h2>
+                        <div class="row">
+                            ${products[cat].map(item => `
+                                <div class="col">
+                                    <a href="men-details.html?id=${encodeURIComponent(item.name)}">
+                                        <img src="${item.img}" alt="${item.name}">
+                                        <h3>${item.name}</h3>
+                                    </a>
+                                    <p class="price">$${item.price.toFixed(2)}</p>
+                                    <p class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</p>
+                                    <button class="btn buy-btn" style="background-color: cyan; color: black;" onclick="redirectToItemDetails('${item.name}')">Buy Now</button>
+                                    <button class="btn cart-btn" style="background-color: cyan; color: black;">Add to Cart</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(section);
+                }
+            });
+        }
+
+        function redirectToItemDetails(itemName) {
+            // Redirect to item details page with the item name as a query parameter
+            window.location.href = `men-details.html?id=${encodeURIComponent(itemName)}`;
+        }
+
+        function filterCategory(category) {
+            generateProducts(category);
+        }
+
+        // Initialize page by displaying all products
+        generateProducts('all');
+    </script>
+</body>
+</html>

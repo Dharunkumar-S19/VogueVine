@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: #f4f4f4;
+        }
+        .men-details {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #111;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 255, 255, 0.2);
+        }
+        .item-image {
+            flex: 1;
+            padding-right: 20px;
+        }
+        .item-image img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 10px;
+        }
+        .item-info {
+            flex: 1;
+            padding-left: 20px;
+        }
+        .item-info h2 {
+            font-size: 32px;
+            color: cyan;
+        }
+        .item-info .price {
+            font-size: 28px;
+            margin-top: 10px;
+            color: #28a745;
+        }
+        .item-info .rating {
+            margin: 10px 0;
+            color: gold;
+        }
+        .item-info .description {
+            margin: 20px 0;
+            font-size: 16px;
+            color: #aaa;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        .btn.buy-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn.cart-btn {
+            background-color: #ffc107;
+            color: black;
+        }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #000;
+            color: cyan;
+            border-top: 2px solid cyan;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+        <h1>VogueVine</h1>
+    </div>
+</header>
+
+<div class="men-details" id="men-details">
+    <!-- Item details will be inserted dynamically here -->
+</div>
+
+<footer>
+    <p>&copy; 2024 VogueVine | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+</footer>
+<button class="btn buy-btn" onclick="buyNow('${product.name}')">Buy Now</button>
+<button class="btn cart-btn" onclick="addToCart('${product.name}')">Add to Cart</button>
+
+
+<script>
+// Define the product data
+const products = {
+    "HOUSE OF MIRA":{ name: "HOUSE OF MIRA", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20240807/HzCJ/66b2b5291d763220fa64d1d1/-473Wx593H-700266462-blue-MODEL.jpg" },
+    "STYLE QUOTIENT Full-Sleeve Shirt":{ name: "STYLE QUOTIENT Full-Sleeve Shirt", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240712/aPll/6690ea091d763220fa6937a0/-473Wx593H-465144952-white-MODEL.jpg" },
+    "Women Striped Regular Fit Shirt": { name: "Women Striped Regular Fit Shirt", price: 27.99, img: "https://assets.ajio.com/medias/sys_master/root/20240619/HCIy/6672e0f86f60443f3158ab04/-473Wx593H-700044768-white-MODEL.jpg" },
+    "MANTICORE Women Regular Fit Shirt":{ name: "MANTICORE Women Regular Fit Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20241103/bAzs/6727255af9b8ef490bf5838a/-473Wx593H-700683109-black-MODEL.jpg" },
+    "Women Checked Loose Fit Shirt":{ name: "Women Checked Loose Fit Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20240130/NCkZ/65b9196016fd2c6e6aca3fe7/-473Wx593H-443025583-pink-MODEL.jpg" },
+    "Women Floral Print Regular Fit Shirt":{ name: "Women Floral Print Regular Fit Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20240731/Bt3V/66a9da686f60443f31db98c5/-473Wx593H-443033208-white-MODEL.jpg" },
+    "Women Striped Relaxed Fit Shirt":{ name: "Women Striped Relaxed Fit Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20240923/pcoa/66f160baf9b8ef490b5bcff1/-473Wx593H-443048387-grey-MODEL.jpg" },
+    "Women Paisley Print Relaxed Fit Shirt":{ name: "Women Paisley Print Relaxed Fit Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20241008/xyCI/67050b99260f9c41e8622564/-473Wx593H-443280573-offwhite-MODEL.jpg" },
+    "Women Printed Boxy Fit Crew-Neck T-Shirt":{ name: "Women Printed Boxy Fit Crew-Neck T-Shirt", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20240822/GeJt/66c6dc5a1d763220fa8e678e/-473Wx593H-443049739-brown-MODEL.jpg" },
+    "Typographic Print Crew-Neck T-shirt":{ name: "Typographic Print Crew-Neck T-shirt", price: 45.99, img: "https://assets.ajio.com/medias/sys_master/root/20220113/GtE3/61e040e4f997dd6623201f6f/-473Wx593H-441135195-offwhite-MODEL.jpg" },
+    "Women Typographic Print Regular Fit Round-Neck T-Shirt":{ name: "Women Typographic Print Regular Fit Round-Neck T-Shirt", price: 52.99, img: "https://assets.ajio.com/medias/sys_master/root/20241001/MwDQ/66fbed3ef9b8ef490b8b014c/-473Wx593H-443056385-lilac-MODEL.jpg" },
+    "Women Typographic Print Boxy Fit Round-Neck T-Shirt":{ name: "Women Typographic Print Boxy Fit Round-Neck T-Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240925/res5/66f3ea86f9b8ef490b65b5d4/-473Wx593H-443057370-jetblack-MODEL4.jpg" },
+    "Women Minnie Mouse Print Boxy Fit T-Shirt":{ name: "Women Minnie Mouse Print Boxy Fit T-Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20241129/DUiw/6749d2660f47f80c87baeca2/-473Wx593H-443050621-offwhite-MODEL.jpg" },
+    "Women Striped Regular Fit Crew-Neck T-Shirt":{ name: "Women Striped Regular Fit Crew-Neck T-Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20231204/EPpJ/656cdd84afa4cf41f5b119bb/-473Wx593H-466846815-navy-MODEL.jpg" },
+    "Round-Neck Lounge T-Shirt":{ name: "Round-Neck Lounge T-Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20230901/H0FG/64f1d52dddf77915198f9b27/-473Wx593H-469545080-white-MODEL3.jpg" },
+    "Round-Neck Lounge T-Shirt":{ name: "Printed Crew-Neck T-Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20230116/W32w/63c52938f997dd708e08dd20/-473Wx593H-443011036-charcoal-MODEL.jpg" },
+    "Flat-Front Straight Fit Trousers":{ name: "Flat-Front Straight Fit Trousers", price: 19.99, img: "https://assets.ajio.com/medias/sys_master/root/20230720/5Aic/64b937a5a9b42d15c964fcd0/-473Wx593H-466373610-black-MODEL.jpg" },
+    "Women Flat-Front Straight Fit Trousers":{ name: "Women Flat-Front Straight Fit Trousers", price: 18.99, img: "https://assets.ajio.com/medias/sys_master/root/20240407/UbfO/6611a09416fd2c6e6aa1ebb0/-473Wx593H-466373610-brown-MODEL.jpg" },
+    "Mid-Rise Trousers with Elasticated Waist":{ name: "Mid-Rise Trousers with Elasticated Waist", price: 22.99, img: "https://assets.ajio.com/medias/sys_master/root/20240216/ETIQ/65cf624005ac7d77bb5ec591/-473Wx593H-467078020-white-MODEL.jpg" },
+    "Women Relaxed Fit Pants with Elasticated Waist":{ name: "Women Relaxed Fit Pants with Elasticated Waist", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240213/OvBl/65cb982f16fd2c6e6af4dcf2/-473Wx593H-467019348-wine-MODEL.jpg" },
+    "Women Tropical Print Pants":{ name: "Women Tropical Print Pants", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240801/3mgJ/66ab2dc76f60443f31df2a90/-473Wx593H-443048959-green-MODEL.jpg" },
+    "Women Straight Fit Pants":{ name: "Women Straight Fit Pants", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240401/CCsi/660aa3c516fd2c6e6a8f3f29/-473Wx593H-443034810-beige-MODEL.jpg" },
+    "Mid-Rise Trousers with Elasticated Waist":{ name: "Mid-Rise Trousers with Elasticated Waist", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240216/WbwE/65cf633a05ac7d77bb5ee3d0/-473Wx593H-467078020-wine-MODEL.jpg" },
+    "Mid-Rise Trousers with Elasticated Waist":{ name: "Women Relaxed Fit Pants with Elasticated Waist", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240423/laql/6626ba4005ac7d77bb1e12d9/-473Wx593H-467019348-blue-MODEL.jpg" },
+    "Women Printed Flared Skirt":{ name: "Women Printed Flared Skirt", price: 19.99, img: "https://assets.ajio.com/medias/sys_master/root/20241125/jLax/67446007c148fa1b30e86c61/-473Wx593H-443048716-offwhite-MODEL.jpg" },
+    "Self-design Flared Skirt":{ name: "Self-design Flared Skirt", price: 18.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/m11m/66e747111d763220fae917a1/-473Wx593H-700429470-black-MODEL.jpg" },
+    "Women Pencil Skirt":{ name: "Women Pencil Skirt", price: 22.99, img: "https://assets.ajio.com/medias/sys_master/root/20240928/DmVM/66f71873260f9c41e838a65d/-473Wx593H-700501589-brown-MODEL.jpg" },
+    "Women Straight Skirts with Insert Pockets":{ name: "Women Straight Skirts with Insert Pockets", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240610/Ayd5/66662d2b05ac7d77bbb10673/-473Wx593H-700061601-indigo-MODEL.jpg" },
+    "Women A-Line Skirt with Button Closure":{ name: "Women A-Line Skirt with Button Closure", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240909/iCAu/66debbab1d763220fad0c4c6/-473Wx593H-700392479-maroon-MODEL.jpg" },
+    "Women Flared Skirt with Elasticated Waist":{ name: "Women Flared Skirt with Elasticated Waist", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240705/YLCg/6687fe756f60443f317d15ed/-473Wx593H-700165973-coffee-MODEL.jpg" },
+    "Embellished Umbrella Cut Flared Skirt":{ name: "Embellished Umbrella Cut Flared Skirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20231102/5Mej/6543c71bddf77915196aaefe/-473Wx593H-462839188-white-MODEL.jpg" },
+    "Women Relaxed Fit Pencil Skirt":{ name: "Women Relaxed Fit Pencil Skirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240326/XmXi/6602e1a505ac7d77bbdbfe21/-473Wx593H-443032168-black-MODEL.jpg" },
+    "Women Washed Flared Jeans":{ name: "Women Washed Flared Jeans", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20241203/S7nh/674f1d8cc148fa1b300f4244/-473Wx593H-466752263-blue-MODEL.jpg" },
+    "Women Ombre-Dyed Relaxed Fit Jeans":{ name: "Women Ombre-Dyed Relaxed Fit Jeans", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20240923/N8em/66f162a4260f9c41e81d4d0e/-473Wx593H-443034030-mediumblue-MODEL4.jpg" },
+    "Women Heavily Washed Distressed Wide Jeans":{ name: "Women Heavily Washed Distressed Wide Jeans", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240627/TRPK/667cff7c6f60443f31c1b6f9/-473Wx593H-700020703-blue-MODEL.jpg" },
+    "High-Rise Straight Fit Jeans":{ name: "High-Rise Straight Fit Jeans", price: 37.99, img: "https://assets.ajio.com/medias/sys_master/root/20230918/wVDv/65083809ddf7791519e0c0c7/-473Wx593H-466591092-blue-MODEL.jpg" },
+    "Women Mid-Rise Skinny Fit Jeans":{ name: "Women Mid-Rise Skinny Fit Jeans", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240712/wejA/66914c371d763220fa729a72/-473Wx593H-443044264-darkgrey-MODEL5.jpg" },
+    "Mid-Wash Bootcut Jeans":{ name: "Mid-Wash Bootcut Jeans", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20230524/fMi2/646e4ab2d55b7d0c63d6d14f/-473Wx593H-469507056-blue-MODEL.jpg" },
+    "Women High-Rise Skinny Fit Jeans":{ name: "Women High-Rise Skinny Fit Jeans", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240102/iQiO/6593e717afa4cf41f5fb5e8f/-473Wx593H-466936983-black-MODEL.jpg" },
+    "Lightly Washed Slim Fit Jeans":{ name: "Lightly Washed Slim Fit Jeans", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20220604/U7n6/629b4778aeb26921af0fa325/-473Wx593H-469194602-darkgrey-MODEL.jpg" },
+    "Women Woven Saree With Un-Stitched Blouse Piece":{ name: "Women Woven Saree With Un-Stitched Blouse Piece", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20241125/w57i/67438de9c148fa1b30e5bf74/-473Wx593H-700800147-magenta-MODEL.jpg" },
+    "Women Kanjeevaram Woven Saree with Zari Accent":{ name: "Women Kanjeevaram Woven Saree with Zari Accent", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20241114/YYkv/67362035260f9c41e8e1ee89/-473Wx593H-700187158-beige-MODEL3.jpg" },
+    "Floral Print Banarasi Saree with Contrast Border":{ name: "Floral Print Banarasi Saree with Contrast Border", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240518/0DRQ/6648025d05ac7d77bb664816/-473Wx593H-467342285-multi-MODEL.jpg" },
+    "Women Embellished Saree":{ name: "Women Embellished Saree", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240415/Y0sK/661d3eed16fd2c6e6ab1f006/-473Wx593H-467250998-purple-MODEL.jpg" },
+    "Women Printed Saree with Contrast Border":{ name: "Women Printed Saree with Contrast Border", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/QRtl/66e836601d763220faeccb07/-473Wx593H-700429787-silver-MODEL.jpg" },
+    "Women Ready to Wear Half and Half Saree with Unstitched Blouse":{ name: "Women Ready to Wear Half and Half Saree with Unstitched Blouse", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240618/fzYQ/667186241d763220fac857fd/-473Wx593H-467113465-peach-MODEL.jpg" },
+    "Women Banarasi Woven Saree with Contrast Border":{ name: "Women Banarasi Woven Saree with Contrast Border", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240913/MdbB/66e36c876f60443f31777ddf/-473Wx593H-700416469-green-MODEL2.jpg" },
+    "Women Ethnic Sarees":{ name: "Women Ethnic Sarees", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/AqtY/66e748ef6f60443f317d0057/-473Wx593H-700427234-white-MODEL.jpg" },
+    "Women Foil Print A-Line Kurta":{ name: "Women Foil Print A-Line Kurta", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20241004/GE8I/66ff9ae7f9b8ef490b936ef3/-473Wx593H-443058294-wine-MODEL.jpg" },
+    "Women Foil Print A-Line Kurta":{ name: "Printed Flared Kurta", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20241025/YVkC/671b735ff9b8ef490bdfeb74/-473Wx593H-466165120-wine-MODEL.jpg" },
+    "Women Embroidery Anarkali Kurta":{ name: "Women Embroidery Anarkali Kurta", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20241207/O06t/67537b39c148fa1b3020712c/-473Wx593H-700889609-green-MODEL.jpg" },
+    "Women Embroidered Straight Kurta":{ name: "Women Embroidered Straight Kurta", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241021/rvCe/671683f4f9b8ef490bd08f6b/-473Wx593H-700624057-green-MODEL.jpg" },
+    "Woven Pattern kurthis":{ name: "Woven Pattern kurthis", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20230602/ltg3/64798ab042f9e729d717667f/-473Wx593H-462516226-black-MODEL.jpg" },
+    "Women Embroidered A-Line Kurta":{ name: "Women Embroidered A-Line Kurta", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240715/McdU/669527aa1d763220fab5222c/-473Wx593H-443051417-offwhite-MODEL.jpg" },
+    "Women Embroidered A-Line Kurta":{ name: "Women Embroidered A-Line Kurta", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240217/xfVr/65d088ff16fd2c6e6a026981/-473Wx593H-467073724-teal-MODEL.jpg" },
+    "Floral Print Round-Neck Flared Kurta":{ name: "Floral Print Round-Neck Flared Kurta", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241025/3TJB/671b7521f9b8ef490be02574/-473Wx593H-465557428-purple-MODEL.jpg" },
+    "Women Embellished Flared Lehenga Choli Set":{ name: "Women Embellished Flared Lehenga Choli Set", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240523/cFTV/664f6ea205ac7d77bb7409a6/-473Wx593H-700004260-green-MODEL.jpg" },
+    "Women Embellished Flared Lehenga Choli Set with Dupatta":{ name: "Women Embellished Flared Lehenga Choli Set with Dupatta", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20241015/73LK/670e2edbf9b8ef490bba5b07/-473Wx593H-700584891-white-MODEL.jpg" },
+    "Women Embellished & Embroidery Lehenga Choli Set with Dupatta":{ name: "Women Embellished & Embroidery Lehenga Choli Set with Dupatta", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240911/II2t/66e1c81b6f60443f3171b193/-473Wx593H-700382512-pink-MODEL.jpg" },
+    "Women Lehenga Choli Set with Dupatta":{ name: "Women Lehenga Choli Set with Dupatta", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241006/EJ4Y/67027e05f9b8ef490b9a9bf0/-473Wx593H-700540929-white-MODEL.jpg" },
+    "Women Lehenga set":{ name: "Women Lehenga set", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240928/j6fH/66f719b1f9b8ef490b78a12e/-473Wx593H-466742251-turquoise-MODEL.jpg" },
+    "Women Embellished & Embroidered Flared Lehenga":{ name: "Women Embellished & Embroidered Flared Lehenga", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240304/80SH/65e4f8ba16fd2c6e6a389234/-473Wx593H-467130254-lavender-MODEL.jpg" },
+    "Women Embroidered Flared Lehenga Choli Set":{ name: "Women Embroidered Flared Lehenga Choli Set", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240926/AcR2/66f58f0a260f9c41e82e6a43/-473Wx593H-700467073-blue-MODEL.jpg" },
+    "Women  Lehenga Choli Set":{ name: "Women  Lehenga Choli Set", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240221/dxnc/65d528c705ac7d77bb6b70ce/-473Wx593H-467093233-blue-MODEL.jpg" },
+    "Colourblock Training Tracksuit":{ name: "Colourblock Training Tracksuit", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240613/b8MV/666cadb11d763220fab2540e/-473Wx593H-465293165-teal-MODEL.jpg" },
+    "Colourblock Running Tracksuit":{ name: "Colourblock Running Tracksuit", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240714/pVhH/669317106f60443f31180660/-473Wx593H-462434657-purple-MODEL.jpg" },
+    "Women Regular Fit Colourblock Running Tracksuit":{ name: "Women Regular Fit Colourblock Running Tracksuit", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20231120/OEFL/655b6366afa4cf41f5925dc5/-473Wx593H-466812241-rust-MODEL.jpg" },
+    "Women Slim Fit Outdoor Tracksuit":{ name: "Women Slim Fit Outdoor Tracksuit", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241212/REJc/675aa81e0f47f80c87f358ee/-473Wx593H-700914087-pink-MODEL.jpg" },
+    "Women Ribbed Slim-Fit Top with Full Sleeves":{ name: "Women Ribbed Slim-Fit Top with Full Sleeves", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240703/Zfjq/668609a71d763220fac9f6cc/-473Wx593H-467269292-green-MODEL.jpg" },
+    "Women Lin Tank Top":{ name: "Women Lin Tank Top", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240624/8MXT/667984826f60443f3194839d/-473Wx593H-469626711-white-MODEL.jpg" },
+    "Women Slim Fit Top with Cut-Out Detail":{ name: "Women Slim Fit Top with Cut-Out Detail", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240718/S4ut/669850f76f60443f3167e0a2/-473Wx593H-467269573-blue-MODEL.jpg" },
+    "Women Printed Slim Fit Tank Top":{ name: "Women Printed Slim Fit Tank Top", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241013/XXM3/670b7accf9b8ef490bb14756/-473Wx593H-700571130-black-MODEL.jpg" },
+    "Women Lightly Washed Cargo Joggers":{ name: "Women Lightly Washed Cargo Joggers", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20241021/LGy8/67165edbf9b8ef490bcf791c/-473Wx593H-442689754-blue-MODEL3.jpg" },
+    "Women Printed Regular Fit Joggers":{ name: "Women Printed Regular Fit Joggers", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240610/vK0Y/66671ac616fd2c6e6a731467/-473Wx593H-442601460-pink-MODEL.jpg" },
+    "Women High-Rise Joggers with Cargo Pockets":{ name: "Women High-Rise Joggers with Cargo Pockets", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240407/wRIj/66129f2716fd2c6e6aa213ce/-473Wx593H-467233984-burgundy-MODEL.jpg" },
+    "Women Printed Regular Fit Joggers":{ name: "Women Printed Regular Fit Joggers", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240305/PPnF/65e71ece16fd2c6e6a3cf51e/-473Wx593H-467138309-multi-MODEL.jpg" },
+    "Women Washed Shoulder abg":{ name: "Women Washed Shoulder abg", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20241017/dqlU/67111b78f9b8ef490bc231c6/-473Wx593H-442691648-blue-MODEL.jpg" },
+    "Women Shoulder Bag with Metal Logo":{ name: "Women Shoulder Bag with Metal Logo", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240510/YbdT/663e1bd605ac7d77bb509535/-473Wx593H-450162571-pink-MODEL.jpg" },
+    "Basha-Q Adjustable Strap Crossbody Bag":{ name: "Basha-Q Adjustable Strap Crossbody Bag", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240704/PqLW/66873de91d763220faeab87a/-473Wx593H-410486044-nvy-MODEL.jpg" },
+    "Burgentx Camo Crossbody Bag":{ name: "Burgentx Camo Crossbody Bag", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240112/OgzY/65a151a554c30e6276a6e39d/-473Wx593H-410345787-bne-MODEL.jpg" },
+    "Sterling Silver Stone-Studded Link Bracelet":{ name: "Sterling Silver Stone-Studded Link Bracelet", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20230207/BqTw/63e1f6f4aeb269c6511488d8/-473Wx593H-6006298320-multi-MODEL.jpg" },
+    "Women Sterling Silver Rose Gold-Plated Celestial":{ name: "Women Sterling Silver Rose Gold-Plated Celestial", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240507/R8Dq/663a3f7005ac7d77bb464f26/-473Wx593H-6006873040-multi-MODEL.jpg" },
+    "Set of 2 Stainless Steel Couple Bracelet":{ name: "Set of 2 Stainless Steel Couple Bracelet", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20211012/sNhq/6164a663f997dd3ed46757a2/-473Wx593H-469022419-multi-MODEL.jpg" },
+    "Iron Charm Bracelet":{ name: "Iron Charm Bracelet", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20221015/9oid/634a54dff997ddfdbd2ac86a/-473Wx593H-471005205-gold-MODEL.jpg" },
+    "Women Embellished Thong-Strap Flip-Flops":{ name: "Women Embellished Thong-Strap Flip-Flops", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240829/1ghl/66cf7e4e6f60443f3139cd0d/-473Wx593H-700336287-beige-MODEL.jpg" },
+    "Reptilian Patterned Back-Sling Block Heeled Sandals":{ name: "Reptilian Patterned Back-Sling Block Heeled Sandals", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20230420/dzim/6441699e907deb497af76f6a/-473Wx593H-450152307-rosegold-MODEL.jpg" },
+    "Chunky-Heeled Slingback Sandals":{ name: "Chunky-Heeled Slingback Sandals", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20230905/jKjT/64f7714fafa4cf41f5a8eaff/-473Wx593H-450132194-beige-MODEL.jpg" },
+    "Women Embellished Toe-Ring Chunky Heeled Sandals":{ name: "Women Embellished Toe-Ring Chunky Heeled Sandals", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240914/i7Tm/66e49a891d763220fae6e35d/-473Wx593H-700419126-gold-MODEL.jpg" }
+};
+
+// Function to get product details from the URL
+function getProductDetailsFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productName = urlParams.get('id'); // Get product name from URL
+    return products[productName]; // Return the product object
+}
+
+// Function to display product details
+function displayProductDetails() {
+    const product = getProductDetailsFromURL();
+    
+    if (!product) {
+        document.getElementById('men-details').innerHTML = '<p>Product not found.</p>';
+        return;
+    }
+    
+    // Construct the HTML for the item details
+    const itemDetailsHTML = `
+        <div class="item-image">
+            <img src="${product.img}" alt="${product.name}">
+        </div>
+        <div class="item-info">
+            <h2>${product.name}</h2>
+            <p class="price">$${product.price.toFixed(2)}</p>
+            <p class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</p>
+            <p class="description">${product.description}</p>
+            <button class="btn buy-btn">Buy Now</button>
+            <button class="btn cart-btn">Add to Cart</button>
+        </div>
+    `;
+    
+    // Inject the HTML into the page
+    document.getElementById('men-details').innerHTML = itemDetailsHTML;
+}
+// Function to handle Buy Now button click
+function buyNow(productName) {
+    alert(`Thank you for choosing to buy "${productName}"! Proceeding to checkout.`);
+}
+
+// Function to handle Add to Cart button click
+function addToCart(productName) {
+    alert(`"${productName}" has been added to your cart.`);
+}
+
+
+// Initialize the page by displaying the product details
+displayProductDetails();
+</script>
+
+</body>
+</html>

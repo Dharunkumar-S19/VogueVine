@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: #f4f4f4;
+        }
+        .men-details {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #111;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 255, 255, 0.2);
+        }
+        .item-image {
+            flex: 1;
+            padding-right: 20px;
+        }
+        .item-image img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 10px;
+        }
+        .item-info {
+            flex: 1;
+            padding-left: 20px;
+        }
+        .item-info h2 {
+            font-size: 32px;
+            color: cyan;
+        }
+        .item-info .price {
+            font-size: 28px;
+            margin-top: 10px;
+            color: #28a745;
+        }
+        .item-info .rating {
+            margin: 10px 0;
+            color: gold;
+        }
+        .item-info .description {
+            margin: 20px 0;
+            font-size: 16px;
+            color: #aaa;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        .btn.buy-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn.cart-btn {
+            background-color: #ffc107;
+            color: black;
+        }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #000;
+            color: cyan;
+            border-top: 2px solid cyan;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+        <h1>Trendy Dress Store</h1>
+    </div>
+</header>
+
+<div class="men-details" id="men-details">
+    <!-- Item details will be inserted dynamically here -->
+</div>
+
+<footer>
+    <p>&copy; 2024 Trendy Dress Store | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+</footer>
+
+<script>
+// Define the product data
+const products = {
+    "IKON FASHION": {
+        name: "IKON FASHION", 
+        price: 29.99, 
+        img: "https://assets.ajio.com/medias/sys_master/root/20241109/qHaE/672e8ecbf9b8ef490b10250a/-473Wx593H-700628392-brown-MODEL4.jpg",
+        description:"nothing"
+    },
+    "QUELEA": {
+        name: "QUELEA",
+        price: 34.99,
+        img: "https://assets.ajio.com/medias/sys_master/root/20241126/n4QF/6745e25d0f47f80c87ad3975/-473Wx593H-700810029-aqua-MODEL.jpg",
+        description: "A soft and warm flannel shirt ideal for cool weather. Classic design with a modern fit."
+    },
+    "REV-VERSE": {
+        name: "REV-VERSE",
+        price: 27.99, 
+        img: "https://assets.ajio.com/medias/sys_master/root/20241015/ZHl7/670e45ddf9b8ef490bbaa18c/-473Wx593H-443044025-beige-MODEL.jpg",
+        description: "Comfortable chino pants with a slim fit. Perfect for both casual and semi-formal looks."
+    },
+    "Checked Slim Fit Shirt": {
+        name: "Checked Slim Fit Shirt",
+        price: 31.99, 
+        img: "https://assets.ajio.com/medias/sys_master/root/20230821/LwEJ/64e35254ddf7791519565465/-473Wx593H-442319607-grey-MODEL.jpg",
+        description: "A premium leather belt that complements both casual and formal wear."
+    },
+    "CAMPUS SUTRA":{ 
+        name: "CAMPUS SUTRA", 
+        price: 31.99, 
+        img: "https://assets.ajio.com/medias/sys_master/root/20240717/hKmD/6696cfb31d763220fac97f29/-473Wx593H-463775643-blue-MODEL.jpg" },
+    "YOUSTA":{ 
+        name: "YOUSTA", 
+        price: 31.99, 
+        img: "https://assets.ajio.com/medias/sys_master/root/20241023/a6XI/6718de83260f9c41e89562ce/-473Wx593H-442696571-red-MODEL.jpg" }, 
+    "URBAN BUCCACHI":{
+         name: "URBAN BUCCACHI", 
+         price: 31.99, 
+         img: "https://assets.ajio.com/medias/sys_master/root/20241104/xkqm/672821c3f9b8ef490bfd6960/-473Wx593H-700673874-grey-MODEL.jpg" },
+    "THE INDIAN GARAGE Stretch Long-Sleeve Shirt":{
+        name: "THE INDIAN GARAGE Stretch Long-Sleeve Shirt", 
+        price: 31.99, 
+        img: "https://assets.ajio.com/medias/sys_master/root/20241210/wesh/675845e8c148fa1b302b1869/-473Wx593H-410457805-02a-MODEL.jpg" },
+    "THE FORMAL CLUB":{ name: "THE FORMAL CLUB", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20240612/kioV/666982dd16fd2c6e6abbeef2/-473Wx593H-700076783-coffee-MODEL.jpg" },
+    "Regular Fit Spread-Collar Shirt":{ name: "Regular Fit Spread-Collar Shirt", price: 45.99, img: "https://assets.ajio.com/medias/sys_master/root/20240814/gjvB/66bbcf526f60443f3107466e/-473Wx593H-700286737-white-MODEL2.jpg" },
+    "Solid Relaxed Fit Shirt":{ name: "Solid Relaxed Fit Shirt", price: 52.99, img: "https://assets.ajio.com/medias/sys_master/root/20240318/TH0a/65f86cc305ac7d77bbc26ce8/-473Wx593H-467180746-burgundy-MODEL.jpg" },
+    "Relaxed Fit Shirt with Spread Collar":{ name: "Relaxed Fit Shirt with Spread Collar", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240519/JIeN/66497e6716fd2c6e6a11a57d/-473Wx593H-467180753-beige-MODEL.jpg" },
+    "Men Relaxed Fit Shirt with Spread Collar":{ name: "Men Relaxed Fit Shirt with Spread Collar", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240519/L20f/66497e5a05ac7d77bb6661c1/-473Wx593H-467180757-grey-MODEL.jpg" },
+    "Stripes Relaxed Fit Shirt":{ name: "Stripes Relaxed Fit Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240318/zPPS/65f8458105ac7d77bbc15be3/-473Wx593H-467180767-green-MODEL.jpg" },
+    "Fit Shirt with Patch-Pocket":{ name: "Fit Shirt with Patch-Pocket", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240617/DU2c/666fce901d763220fac340b9/-473Wx593H-700076749-black-MODEL.jpg" },
+    "Heathered Regular Fit Shirt":{ name: "Heathered Regular Fit Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240318/hpbi/65f8424f05ac7d77bbc0fbaa/-473Wx593H-467180752-blue-MODEL.jpg" },
+    "Men Slim Fit Flat-Front Trousers":{ name: "Men Slim Fit Flat-Front Trousers", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20241025/5oL8/671b49d5f9b8ef490bdf47c0/-473Wx593H-700640293-black-MODEL.jpg" },
+    "Men Checked Regular Fit Flat-Front Trousers":{ name: "Men Checked Regular Fit Flat-Front Trousers", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240813/PBGK/66bb6e491d763220fa785090/-473Wx593H-443047446-ltgrey-MODEL.jpg" },
+    "Men Checkered Relaxed Fit Trousers":{ name: "Men Checkered Relaxed Fit Trousers", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240108/S71F/659c2a8174cb305fe00b294d/-473Wx593H-466960283-brown-MODEL.jpg" },
+    "Men Slim Fit Flat-Front Chinos":{ name: "Men Slim Fit Flat-Front Chinos", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240807/UVG5/66b382956f60443f31f3ef2c/-473Wx593H-443039115-ltgrey-MODEL.jpg" },
+    "Men Slim Fit Flat-Front Chinos":{ name:  "Men Slim Fit Flat-Front Chinos", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240314/2Ifw/65f31f5316fd2c6e6a5d24a1/-473Wx593H-469316695-teal-MODEL.jpg" },
+    "Men Regular Fit Flat-Front Chinos":{ name: "Men Regular Fit Flat-Front Chinos", price: 69.99, img: "https://assets.ajio.com/medias/sys_master/root/20240806/PxzT/66b2418d1d763220fa636ad9/-473Wx593H-443049564-brown-MODEL.jpg" },
+    "Slim Fit Pants with Insert Pockets":{ name: "Slim Fit Pants with Insert Pockets", price: 64.99, img: "https://assets.ajio.com/medias/sys_master/root/20230907/N0jF/64f9d116ddf7791519c34154/-473Wx593H-466545387-blue-MODEL.jpg" },
+    "Slim Fit Pants with Insert Pockets":{ name: "Men Heathered Slim Fit Flat-Front Chinos", price: 62.99, img: "https://assets.ajio.com/medias/sys_master/root/20230621/msYK/6493286542f9e729d776cb72/-473Wx593H-469518020-olive-MODEL.jpg" },
+    "U.S. POLO ASSN":{ name: "U.S. POLO ASSN", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240724/jfvz/66a10efe1d763220fa1c34b6/-473Wx593H-469625868-blue-MODEL4.jpg" },
+    "Men 512 Lightly Washed Slim Tapered Fit Jeans":{ name: "Men 512 Lightly Washed Slim Tapered Fit Jeans", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240521/0hjP/664c7db205ac7d77bb6a7301/-473Wx593H-442601771-olive-MODEL.jpg" },
+    "Men Slim Fit Jeans":{ name: "Men Slim Fit Jeans", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20241119/pJl1/673c5adf0f47f80c8795cc77/-473Wx593H-442700006-grey-MODEL.jpg" },
+    "Men Relaxed Fit Jeans with Insert Pockets":{ name: "Men Relaxed Fit Jeans with Insert Pockets", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20241104/RS7J/6728f7f2f9b8ef490b0156ba/-473Wx593H-700703821-black-MODEL.jpg" },
+    "Men Straight Jeans with 5-Pocket Styling":{ name: "Men Straight Jeans with 5-Pocket Styling", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240704/S9qx/668723956f60443f31702042/-473Wx593H-700162326-grey-MODEL.jpg" },
+    "SWashed Joggers with Drawstring Waist":{ name: "SWashed Joggers with Drawstring Waist", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20230728/kljb/64c3b03ba9b42d15c9779634/-473Wx593H-469157897-lightblue-MODEL.jpg" },
+    "Men Light-Wash Baggy Fit Jeans":{ name: "Men Light-Wash Baggy Fit Jeans", price: 39.99, img: "https://assets.ajio.com/medias/sys_master/root/20230410/STNZ/6433e5c6711cf97ba7180bbc/-473Wx593H-443005671-darkblue-MODEL.jpg" },
+    "Relaxed Fit Jeans with Flap Pockets":{ name: "Relaxed Fit Jeans with Flap Pockets", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20231127/7n8l/6564c28bddf7791519a081b0/-473Wx593H-466830060-black-MODEL.jpg" },
+    "Colourblock Polo with Ribbed Hem":{ name: "Colourblock Polo with Ribbed Hem", price: 19.99, img: "https://assets.ajio.com/medias/sys_master/root/20230624/3nRu/64963174a9b42d15c9d5beab/-473Wx593H-466304951-blue-MODEL2.jpg" },
+    "Colourblock Polo with Ribbed Hem":{ name: "Men Colour-block Regular Fit Polo T-shirt", price: 18.99, img: "https://assets.ajio.com/medias/sys_master/root/20241112/TzcZ/67337c76f9b8ef490b183cf1/-473Wx593H-700729462-olive-MODEL.jpg" },
+    "Men Typographic Print Regular Fit Polo T-Shirt":{ name: "Men Typographic Print Regular Fit Polo T-Shirt", price: 22.99, img: "https://assets.ajio.com/medias/sys_master/root/20240716/JNFK/6696af6e1d763220fac8bc58/-473Wx593H-700051856-beige-MODEL.jpg" },
+    "Men Regular Fit Crew-Neck T-Shirt":{ name: "Men Regular Fit Crew-Neck T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20241119/uXDZ/673c68ed0f47f80c8795db63/-473Wx593H-443061825-lilac-MODEL.jpg" },
+    "Men Typographic Crew-Neck T-Shirt":{ name: "Men Typographic Crew-Neck T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240715/KkmL/669559d81d763220fab71f41/-473Wx593H-443056271-darkblue-MODEL.jpg" },
+    "Men Regular Fit Crew-Neck T-Shirt":{ name: "Men Regular Fit Crew-Neck T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20241118/xU3v/673b27950f47f80c8792b32e/-473Wx593H-443061825-offwhite-MODEL.jpg" },
+    "Men Floral Print Boxy Fit Crew-Neck T-Shirt":{ name: "Men Floral Print Boxy Fit Crew-Neck T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240718/i3YV/66989b471d763220fae2839a/-473Wx593H-443052498-ecru-MODEL.jpg" },
+    "Men Regular Fit Crew-Neck T-Shirt":{ name: "Men Regular Fit Crew-Neck T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20241118/UCbP/673b27660f47f80c8792b17c/-473Wx593H-443061825-teal-MODEL.jpg" },
+    "Men Printed Slim Fit Crew-Neck T-Shirt":{ name: "Men Printed Slim Fit Crew-Neck T-Shirt", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20240904/um2i/66d83a496f60443f3152d492/-473Wx593H-700370399-red-MODEL.jpg" },
+    "Regular Fit Crew-Neck T-Shirt with Placement Logo":{ name: "Regular Fit Crew-Neck T-Shirt with Placement Logo", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20240320/OXwn/65fac8dc05ac7d77bbcb6596/-473Wx593H-441128501-darkgrey-MODEL.jpg" },
+    "Crew-Neck T-Shirt with Short Sleeves":{ name: "Crew-Neck T-Shirt with Short Sleeves", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/dWGq/66e789b86f60443f317e26e6/-473Wx593H-700424757-blue-MODEL.jpg" },
+    "Men Logo Print Slim Fit Crew-Neck T-Shirt":{ name: "Men Logo Print Slim Fit Crew-Neck T-Shirt", price: 37.99, img: "https://assets.ajio.com/medias/sys_master/root/20240904/JGDO/66d862d36f60443f315451de/-473Wx593H-700368547-grey-MODEL.jpg" },
+    "Men Typographic Hoodie":{ name: "Men Typographic Hoodie", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20241118/csNp/673b6cbbc148fa1b30d4a51c/-473Wx593H-700772623-wine-MODEL.jpg" },
+    "Men Others Hoodie":{ name: "Men Others Hoodie", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/ybuL/66e736e21d763220fae8c3f0/-473Wx593H-700427827-brown-MODEL.jpg" },
+    "Men Regular Fit Zip-Front Hooded Sweatshirt":{ name: "Men Regular Fit Zip-Front Hooded Sweatshirt", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20241122/Etad/6740154b0f47f80c879e507f/-473Wx593H-700784078-black-MODEL.jpg" },
+    "Men Printed Regular Fit Hoodie":{ name: "Men Printed Regular Fit Hoodie", price: 37.99, img: "https://assets.ajio.com/medias/sys_master/root/20231218/dUE3/65804ba5ddf7791519d54e4e/-473Wx593H-466892913-beige-MODEL.jpg" },
+    "Men Zip-Up Oversized Fit Sweatshirt":{ name: "Men Zip-Up Oversized Fit Sweatshirt", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/TnhP/66e7deac1d763220faeb92f3/-473Wx593H-700424666-navy-MODEL.jpg" },
+    "Men Oversized Fit Hoodie with Kangaroo Pocket":{ name: "Men Oversized Fit Hoodie with Kangaroo Pocket", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20241205/M8uy/67516d050f47f80c87d955e4/-473Wx593H-700880795-brown-MODEL.jpg" },
+    "Men Graphic Print Regular Fit Hoodie":{ name: "Men Graphic Print Regular Fit Hoodie", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20241213/WA5A/675b65da0f47f80c87f643cf/-473Wx593H-700916366-beige-MODEL.jpg" },
+    "Slim Fit Zip-Front Hoodie with Kangaroo Pockets":{ name: "Slim Fit Zip-Front Hoodie with Kangaroo Pockets", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20230602/5TXy/647958ded55b7d0c633bfd39/-473Wx593H-461698913-green-MODEL.jpg" },
+    "Men Regular Fit Cargo Joggers":{ name: "Men Regular Fit Cargo Joggers", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20241210/gtCO/67581cb90f47f80c87eb32f1/-473Wx593H-443044040-olive-MODEL.jpg" },
+    "Men Fastdry Active Panelled Track Pants":{ name: "Men Fastdry Active Panelled Track Pants", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20240320/Trv2/65fac8d316fd2c6e6a714521/-473Wx593H-441128505-ltblue-MODEL.jpg" },
+    "Men Track Pants with Insert Pockets":{ name: "Men Track Pants with Insert Pockets", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20240806/VsCX/66b227a91d763220fa62cc7f/-473Wx593H-441139592-jetblack-MODEL.jpg" },
+    "Men Regular Fit Tracksuit with Contrast Tapping":{ name: "Men Regular Fit Tracksuit with Contrast Tapping", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20231214/owcV/657a593eddf7791519cbdeeb/-473Wx593H-466885139-black-MODEL.jpg" },
+    "Men Joggers with Insert Pockets":{ name: "Men Joggers with Insert Pockets", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20240821/D8iM/66c5d1311d763220fa8b1513/-473Wx593H-443052762-beige-MODEL.jpg" },
+    "Men Joggers with Insert Pockets":{ name: "Men Joggers with Insert Pockets", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20240909/jXyH/66ded0aa1d763220fad2aad6/-473Wx593H-443052762-teal-MODEL.jpg" },
+    "Pack of 2 Men Straight Track Pants":{ name: "Pack of 2 Men Straight Track Pants", price: 22.99, img: "https://assets.ajio.com/medias/sys_master/root/20240730/EiXg/66a7ee7d6f60443f31d6f2bd/-473Wx593H-700243173-black-MODEL.jpg" },
+    "Men Mid-Rise Track Pants with Elasticated Drawstringk":{ name: "Men Mid-Rise Track Pants with Elasticated Drawstringk", price: 27.99, img: "https://assets.ajio.com/medias/sys_master/root/20240911/h21w/66e158aa6f60443f316e2c98/-473Wx593H-700388356-blue-MODEL6.jpg" },
+    "Men Printed Regular Fit Shorts":{ name: "Men Printed Regular Fit Shorts", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240809/f2R0/66b5aacd6f60443f31fa5db0/-473Wx593H-443054698-jetblack-MODEL.jpg" },
+    "Men Printed Regular Fit Short":{ name: "Men Printed Regular Fit Short", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240516/4seb/6645b78105ac7d77bb6116a3/-473Wx593H-443037042-olive-MODEL.jpg" },
+    "Men Regular Fit Shorts with Zipper Pockets":{ name: "Men Regular Fit Shorts with Zipper Pockets", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240830/WXgP/66d181a51d763220faafa312/-473Wx593H-442684557-jetblack-MODEL.jpg" },
+    "New Core Varsity Logo Print Knit Shorts":{ name: "New Core Varsity Logo Print Knit Shorts", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20220917/sQEE/6324cc5baeb269dbb39136e7/-473Wx593H-441137105-khaki-MODEL4.jpg" },
+    "TITAN Men Techno Beats":{ name: "TITAN Men Techno Beats", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240522/s15e/664df81316fd2c6e6a1bfadc/-473Wx593H-4934048920-multi-MODEL.jpg" },
+    "SKYLONA Chronograph Wrist Watch with Meshed Strap":{ name: "SKYLONA Chronograph Wrist Watch with Meshed Strap", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20230930/YI2E/651750ddddf7791519103694/-473Wx593H-466652259-black-MODEL.jpg" },
+    "CASIO Enticer Men Analog Wrist Watch":{ name: "CASIO Enticer Men Analog Wrist Watch", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20221221/ptfA/63a32c38aeb269659cffe989/-473Wx593H-460812859-black-MODEL.jpg" },
+    "Men Enticer Analogue Wrist Watch- MTP-1302D":{ name: "Men Enticer Analogue Wrist Watch- MTP-1302D", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20210128/gDcs/6011bda8aeb26969815802d5/-473Wx593H-460812875-black-MODEL.jpg" },
+    "Men Analogue Brown Watch - ME3219":{ name: "Men Analogue Brown Watch - ME3219", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240606/JQbS/6661ba4c05ac7d77bba37adc/-473Wx593H-469170558-brown-MODEL.jpg" },
+    "Men Regalia Maritime Analogue Watch - NS1829QL01":{ name: "Men Regalia Maritime Analogue Watch - NS1829QL01", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20240529/8G7I/6656e31516fd2c6e6a376670/-473Wx593H-4934046420-multi-MODEL.jpg" },
+    "LORENZ Men Round-Dial Wrist Watch":{ name: "LORENZ Men Round-Dial Wrist Watch", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20240205/XA7B/65c1107216fd2c6e6adb7f20/-473Wx593H-467044040-white-MODEL.jpg" },
+    "GIORDANO Analogue Watch-GZ-50098-02":{ name: "GIORDANO Analogue Watch-GZ-50098-02", price: 69.99, img: "https://assets.ajio.com/medias/sys_master/root/20241006/B1Qf/6702999af9b8ef490b9b8bb5/-473Wx593H-700546861-black-MODEL.jpg" },
+    "AJMAL Unisex Ascend Oriental Perfume":{ name: "AJMAL Unisex Ascend Oriental Perfume", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20230925/m6Hr/65114706afa4cf41f5019e99/-473Wx593H-4939125930-multi-MODEL.jpg" },
+    "BELLA VITA ORGANIC Organic White Oud Unisex Perfume":{ name: "BELLA VITA ORGANIC Organic White Oud Unisex Perfume", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20240515/n1uO/6644910a16fd2c6e6a076d0f/-473Wx593H-4924946030-multi-MODEL.jpg" },
+    "WILD STONE Hydra Energy Eau De Parfum ":{ name: "WILD STONE Hydra Energy Eau De Parfum ", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20240905/IN4q/66d9911a6f60443f3158f304/-473Wx593H-4913924190-multi-MODEL.jpg" },
+    "RENEE Bloom Eau De Parfum":{ name: "RENEE Bloom Eau De Parfum", price: 69.99, img: "https://assets.ajio.com/medias/sys_master/root/20230807/sQzg/64d0d980a9b42d15c991bfa3/-473Wx593H-4936812620-multi-MODEL.jpg" }
+
+
+};
+
+// Function to get product details from the URL
+function getProductDetailsFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productName = urlParams.get('id'); // Get product name from URL
+    return products[productName]; // Return the product object
+}
+
+// Function to display product details
+function displayProductDetails() {
+    const product = getProductDetailsFromURL();
+    
+    if (!product) {
+        document.getElementById('men-details').innerHTML = '<p>Product not found.</p>';
+        return;
+    }
+    
+    // Construct the HTML for the item details
+    const itemDetailsHTML = `
+        <div class="item-image">
+            <img src="${product.img}" alt="${product.name}">
+        </div>
+        <div class="item-info">
+            <h2>${product.name}</h2>
+            <p class="price">$${product.price.toFixed(2)}</p>
+            <p class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</p>
+            <p class="description">${product.description}</p>
+            <button class="btn buy-btn">Buy Now</button>
+            <button class="btn cart-btn">Add to Cart</button>
+        </div>
+    `;
+    
+    // Inject the HTML into the page
+    document.getElementById('men-details').innerHTML = itemDetailsHTML;
+}
+
+// Initialize the page by displaying the product details
+displayProductDetails();
+</script>
+
+</body>
+</html>

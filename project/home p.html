@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fashion E-Commerce</title>
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        header {
+            background: linear-gradient(90deg, #00ffff, #009999);
+            color: #fff;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        header nav ul li {
+            margin: 0 10px;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        header nav ul li a:hover {
+            color: #00ffff;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 60px;
+            height: 100vh;
+            background: #121212;
+        }
+
+        /* Left side: Categories */
+        .categories {
+            width: 250px;
+            background: linear-gradient(135deg, #00ffff, #009999);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 20px;
+        }
+
+        .categories h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000;
+            font-size: 1.5rem;
+        }
+
+        .categories ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .categories ul li {
+            display: flex;
+            justify-content: center;
+        }
+
+        .categories ul li button {
+            width: 100%;
+            padding: 15px;
+            background-color: #00ffff;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .categories ul li button:hover {
+            background-color: #009999;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Right side: Slideshow and Name */
+        .right-side {
+            width: calc(100% - 250px);
+            background-color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .slideshow {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .slideshow img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .website-name {
+            font-family: 'Roboto', sans-serif;
+            font-size: 2.5rem;
+            margin-top: 20px;
+            text-align: center;
+            background: #00ffff;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <div class="container">
+            <h1>Fashion Hub</h1>
+            <div class="navbar-right">
+                <nav>
+                    <ul>
+                        <li><a href="homepage.html">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Service</a></li>
+                        <li><a href="#">Feedback</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+        <!-- Left side: Categories -->
+        <div class="categories">
+            <h2>Explore Styles</h2>
+            <ul>
+                <li><button onclick="navigateToPage('men.html')">FOR MEN</button></li>
+                <li><button onclick="navigateToPage('women.html')">FOR WOMEN</button></li>
+                <li><button onclick="navigateToPage('kids.html')">FOR KIDS</button></li>
+            </ul>
+        </div>
+
+        <!-- Right side: Slideshow and Name -->
+        <div class="right-side">
+            <div class="slideshow">
+                <img id="slideshow-image" src="image1.jpg" alt="Fashion Image">
+            </div>
+            <h1 class="website-name">Fashion Hub</h1>
+        </div>
+    </div>
+
+    <script>
+        const images = [
+            "https://mercury.akamaized.net/i/a487678e85bbc6285aafcf43476c5ebc_306089_0.jpg",
+            "https://mercury.akamaized.net/i/2ed684c6190c27b1d9ea25c19586a509_306740_0.jpg",
+            "https://mercury.akamaized.net/i/34f2150fc4106df22f5ab31e43eac1ea_306087_0.jpg",
+            "https://mercury.akamaized.net/i/a487678e85bbc6285aafcf43476c5ebc_306089_0.jpg"
+        ];
+
+        let currentIndex = 0;
+
+        function updateSlideshow() {
+            const slideshowImage = document.getElementById("slideshow-image");
+            currentIndex = (currentIndex + 1) % images.length;
+            slideshowImage.src = images[currentIndex];
+        }
+
+        setInterval(updateSlideshow, 4000); // Change image every 4 seconds
+    </script>
+</body>
+</html>

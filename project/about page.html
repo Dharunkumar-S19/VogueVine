@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - VogueVine</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000; /* Deep black background */
+            color: #fff; /* White text for contrast */
+            overflow-x: hidden; /* Prevent horizontal scroll from transitions */
+        }
+        header {
+            background: linear-gradient(90deg, #00bcd4, #006064); /* Cyan gradient */
+            color: #fff;
+            text-align: center;
+            padding: 40px 20px;
+            transition: background 1s ease-in-out; /* Slow transition */
+        }
+        header:hover {
+            background: linear-gradient(90deg, #006064, #00bcd4); /* Reversed gradient on hover */
+        }
+        header h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 2px 2px #000; /* Black shadow for depth */
+            animation: fadeIn 2s ease-in-out; /* Slower fade-in */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #111; /* Deep black for contrast */
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 188, 212, 0.5); /* Cyan glow effect */
+            animation: slideIn 1.5s ease-out;
+        }
+        h2 {
+            color: #00e5ff; /* Bright cyan for section headings */
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #00e5ff;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 1s ease; /* Slower underline animation */
+        }
+        h2:hover::after {
+            transform: scaleX(1);
+        }
+        p {
+            color: #bbb; /* Light gray text for readability */
+            font-size: 1.1em;
+            line-height: 1.8;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards; /* Slower fade-in for text */
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section:nth-child(even) {
+            animation-delay: 0.4s;
+        }
+        .section:nth-child(odd) {
+            animation-delay: 0.6s;
+        }
+        .team-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .team-section ul li {
+            color: #00e5ff; /* Cyan text for team names */
+            font-size: 1.2em;
+            margin: 10px 0;
+            text-shadow: 1px 1px #000; /* Subtle shadow */
+            transition: transform 0.6s ease, color 0.6s ease; /* Slower transformations */
+        }
+        .team-section ul li:hover {
+            transform: translateX(15px); /* Increased hover movement */
+            color: #00bcd4; /* Lighter cyan on hover */
+        }
+        footer {
+            background: linear-gradient(90deg, #006064, #00bcd4); /* Cyan gradient */
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 1em;
+            text-shadow: 1px 1px #000; /* Subtle shadow */
+            transition: transform 1s ease; /* Slower hover animation */
+        }
+        footer:hover {
+            transform: translateY(-10px); /* More noticeable lift */
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>About Us</h1>
+    </header>
+    <div class="container">
+        <section class="section mission-section">
+            <h2>Our Mission</h2>
+            <p>At <strong>VogueVine</strong>, our mission is to inspire confidence and individuality through fashion. We curate collections that empower everyone to showcase their style, blending timeless elegance with modern trends.</p>
+        </section>
+        
+        <section class="section values-section">
+            <h2>Our Values</h2>
+            <p>We are committed to sustainability, inclusivity, and innovation. Our products are designed to meet the highest standards of quality while being mindful of the environment and accessible to all.</p>
+        </section>
+        
+        <section class="section team-section">
+            <h2>Meet the Team</h2>
+            <p>Our creative team is the backbone of <strong>VogueVine</strong>. Get to know the faces behind our brand:</p>
+            <ul>
+                <li>Dharunkumar - Team Lead</li>
+                <li>Manojkumar - Team Member</li>
+                <li>Dhaarani - Team Member</li>
+                <li>Divyanandh - Team Member</li>
+            </ul>
+        </section>
+    </div>
+    <footer>
+        <p>&copy; 2024 VogueVine. Designed with passion and precision.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>VogueVine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000000;
+            color: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000000;
+            color: cyan;
+            padding: 15px 20px;
+            border-bottom: 2px solid cyan;
+        }
+
+        .header-left h1 {
+            font-size: 26px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: cyan;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            padding: 8px;
+            border: 2px solid cyan;
+            border-radius: 5px;
+            background-color: #111;
+            color: cyan;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            padding: 8px 15px;
+            background-color: cyan;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #00b3b3;
+        }
+
+        .category-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .category-button {
+            background-color: cyan;
+            color: black;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .category-button:hover {
+            background-color: #00b3b3;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            overflow-y: auto;
+            max-height: calc(100vh - 150px);
+        }
+
+        .category {
+            margin-bottom: 40px;
+            display: none; /* Initially hide all categories */
+        }
+
+        .category h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: cyan;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .col {
+            width: 23%; /* Adjusted to show 4 items per row */
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #000000;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .col img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .col:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 255, 255, 0.3);
+            cursor: pointer;
+        }
+
+        .rating {
+            margin: 10px 0;
+            font-size: 18px;
+            color: gold;
+        }
+
+        .btn {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .buy-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .cart-btn {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #000000;
+            color: cyan;
+            border-top: 2px solid cyan;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>VogueVine</h1>
+        </div>
+        <div class="header-right">
+            <input type="text" placeholder="Search for products..." class="search-bar" id="search-bar">
+            <button class="search-button" onclick="searchProducts()">&#128269;</button>
+        </div>
+    </header>
+
+    <div class="category-buttons">
+        <button class="category-button" onclick="filterCategory('all')">All</button>
+        <button class="category-button" onclick="filterCategory('Tops')">Tops</button>
+        <button class="category-button" onclick="filterCategory('Bottoms')">Bottoms</button>
+        <button class="category-button" onclick="filterCategory('Traditionals')">Traditionals</button>
+	    <button class="category-button" onclick="filterCategory('outerwear')">outerwear</button>
+        <button class="category-button" onclick="filterCategory('accessories')">accessories</button>
+    </div>
+
+    <div class="container" id="product-container">
+        <!-- Categories will be generated dynamically here -->
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Trendy Dress Store | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <script>
+        const products = {
+        Tops: {
+                shirts: [
+                    { name: "HOUSE OF MIRA", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20240807/HzCJ/66b2b5291d763220fa64d1d1/-473Wx593H-700266462-blue-MODEL.jpg" },
+                    { name: "STYLE QUOTIENT Full-Sleeve Shirt", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240712/aPll/6690ea091d763220fa6937a0/-473Wx593H-465144952-white-MODEL.jpg" },
+                    { name: "Women Striped Regular Fit Shirt", price: 27.99, img: "https://assets.ajio.com/medias/sys_master/root/20240619/HCIy/6672e0f86f60443f3158ab04/-473Wx593H-700044768-white-MODEL.jpg" },
+                    { name: "MANTICORE Women Regular Fit Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20241103/bAzs/6727255af9b8ef490bf5838a/-473Wx593H-700683109-black-MODEL.jpg" },
+                    { name: "Women Checked Loose Fit Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20240130/NCkZ/65b9196016fd2c6e6aca3fe7/-473Wx593H-443025583-pink-MODEL.jpg" },
+                    { name: "Women Floral Print Regular Fit Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20240731/Bt3V/66a9da686f60443f31db98c5/-473Wx593H-443033208-white-MODEL.jpg" },
+                    { name: "Women Striped Relaxed Fit Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20240923/pcoa/66f160baf9b8ef490b5bcff1/-473Wx593H-443048387-grey-MODEL.jpg" },
+                    { name: "Women Paisley Print Relaxed Fit Shirt", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20241008/xyCI/67050b99260f9c41e8622564/-473Wx593H-443280573-offwhite-MODEL.jpg" }
+                ],
+                Tshirts: [
+                    { name: "Women Printed Boxy Fit Crew-Neck T-Shirt", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20240822/GeJt/66c6dc5a1d763220fa8e678e/-473Wx593H-443049739-brown-MODEL.jpg" },
+                    { name: "Typographic Print Crew-Neck T-shirt", price: 45.99, img: "https://assets.ajio.com/medias/sys_master/root/20220113/GtE3/61e040e4f997dd6623201f6f/-473Wx593H-441135195-offwhite-MODEL.jpg" },
+                    { name: "Women Typographic Print Regular Fit Round-Neck T-Shirt", price: 52.99, img: "https://assets.ajio.com/medias/sys_master/root/20241001/MwDQ/66fbed3ef9b8ef490b8b014c/-473Wx593H-443056385-lilac-MODEL.jpg" },
+                    { name: "Women Typographic Print Boxy Fit Round-Neck T-Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240925/res5/66f3ea86f9b8ef490b65b5d4/-473Wx593H-443057370-jetblack-MODEL4.jpg" },
+                    { name: "Women Minnie Mouse Print Boxy Fit T-Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20241129/DUiw/6749d2660f47f80c87baeca2/-473Wx593H-443050621-offwhite-MODEL.jpg" },
+                    { name: "Women Striped Regular Fit Crew-Neck T-Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20231204/EPpJ/656cdd84afa4cf41f5b119bb/-473Wx593H-466846815-navy-MODEL.jpg" },
+                    { name: "Round-Neck Lounge T-Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20230901/H0FG/64f1d52dddf77915198f9b27/-473Wx593H-469545080-white-MODEL3.jpg" },
+                    { name: "Printed Crew-Neck T-Shirt", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20230116/W32w/63c52938f997dd708e08dd20/-473Wx593H-443011036-charcoal-MODEL.jpg" }
+                ]
+            },
+        Bottoms: {
+                Pant: [
+                    { name: "Flat-Front Straight Fit Trousers", price: 19.99, img: "https://assets.ajio.com/medias/sys_master/root/20230720/5Aic/64b937a5a9b42d15c964fcd0/-473Wx593H-466373610-black-MODEL.jpg" },
+                    { name: "Women Flat-Front Straight Fit Trousers", price: 18.99, img: "https://assets.ajio.com/medias/sys_master/root/20240407/UbfO/6611a09416fd2c6e6aa1ebb0/-473Wx593H-466373610-brown-MODEL.jpg" },
+                    { name: "Mid-Rise Trousers with Elasticated Waist", price: 22.99, img: "https://assets.ajio.com/medias/sys_master/root/20240216/ETIQ/65cf624005ac7d77bb5ec591/-473Wx593H-467078020-white-MODEL.jpg" },
+                    { name: "Women Relaxed Fit Pants with Elasticated Waist", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240213/OvBl/65cb982f16fd2c6e6af4dcf2/-473Wx593H-467019348-wine-MODEL.jpg" },
+                    { name: "Women Tropical Print Pants", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240801/3mgJ/66ab2dc76f60443f31df2a90/-473Wx593H-443048959-green-MODEL.jpg" },
+                    { name: "Women Straight Fit Pants", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240401/CCsi/660aa3c516fd2c6e6a8f3f29/-473Wx593H-443034810-beige-MODEL.jpg" },
+                    { name: "Mid-Rise Trousers with Elasticated Waist", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240216/WbwE/65cf633a05ac7d77bb5ee3d0/-473Wx593H-467078020-wine-MODEL.jpg" },
+                    { name: "Women Relaxed Fit Pants with Elasticated Waist", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240423/laql/6626ba4005ac7d77bb1e12d9/-473Wx593H-467019348-blue-MODEL.jpg" }
+                ],
+		        skirts: [
+                    { name: "Women Printed Flared Skirt", price: 19.99, img: "https://assets.ajio.com/medias/sys_master/root/20241125/jLax/67446007c148fa1b30e86c61/-473Wx593H-443048716-offwhite-MODEL.jpg" },
+                    { name: "Self-design Flared Skirt", price: 18.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/m11m/66e747111d763220fae917a1/-473Wx593H-700429470-black-MODEL.jpg" },
+                    { name: "Women Pencil Skirt", price: 22.99, img: "https://assets.ajio.com/medias/sys_master/root/20240928/DmVM/66f71873260f9c41e838a65d/-473Wx593H-700501589-brown-MODEL.jpg" },
+                    { name: "Women Straight Skirts with Insert Pockets", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240610/Ayd5/66662d2b05ac7d77bbb10673/-473Wx593H-700061601-indigo-MODEL.jpg" },
+                    { name: "Women A-Line Skirt with Button Closure", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240909/iCAu/66debbab1d763220fad0c4c6/-473Wx593H-700392479-maroon-MODEL.jpg" },
+                    { name: "Women Flared Skirt with Elasticated Waist", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240705/YLCg/6687fe756f60443f317d15ed/-473Wx593H-700165973-coffee-MODEL.jpg" },
+                    { name: "Embellished Umbrella Cut Flared Skirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20231102/5Mej/6543c71bddf77915196aaefe/-473Wx593H-462839188-white-MODEL.jpg" },
+                    { name: "Women Relaxed Fit Pencil Skirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240326/XmXi/6602e1a505ac7d77bbdbfe21/-473Wx593H-443032168-black-MODEL.jpg" }
+                ],
+
+                jeans: [
+                    { name: "Women Washed Flared Jeans", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20241203/S7nh/674f1d8cc148fa1b300f4244/-473Wx593H-466752263-blue-MODEL.jpg" },
+                    { name: "Women Ombre-Dyed Relaxed Fit Jeans", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20240923/N8em/66f162a4260f9c41e81d4d0e/-473Wx593H-443034030-mediumblue-MODEL4.jpg" },
+                    { name: "Women Heavily Washed Distressed Wide Jeans", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240627/TRPK/667cff7c6f60443f31c1b6f9/-473Wx593H-700020703-blue-MODEL.jpg" },
+                    { name: "High-Rise Straight Fit Jeans", price: 37.99, img: "https://assets.ajio.com/medias/sys_master/root/20230918/wVDv/65083809ddf7791519e0c0c7/-473Wx593H-466591092-blue-MODEL.jpg" },
+                    { name: "Women Mid-Rise Skinny Fit Jeans", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240712/wejA/66914c371d763220fa729a72/-473Wx593H-443044264-darkgrey-MODEL5.jpg" },
+                    { name: "Mid-Wash Bootcut Jeans", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20230524/fMi2/646e4ab2d55b7d0c63d6d14f/-473Wx593H-469507056-blue-MODEL.jpg" },
+                    { name: "Women High-Rise Skinny Fit Jeans", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240102/iQiO/6593e717afa4cf41f5fb5e8f/-473Wx593H-466936983-black-MODEL.jpg" },
+                    { name: "Lightly Washed Slim Fit Jeans", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20220604/U7n6/629b4778aeb26921af0fa325/-473Wx593H-469194602-darkgrey-MODEL.jpg" }
+                ]
+                },
+        Traditionals: {
+                saree: [
+                    { name: "Women Woven Saree With Un-Stitched Blouse Piece", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20241125/w57i/67438de9c148fa1b30e5bf74/-473Wx593H-700800147-magenta-MODEL.jpg" },
+                    { name: "Women Kanjeevaram Woven Saree with Zari Accent", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20241114/YYkv/67362035260f9c41e8e1ee89/-473Wx593H-700187158-beige-MODEL3.jpg" },
+                    { name: "Floral Print Banarasi Saree with Contrast Border", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240518/0DRQ/6648025d05ac7d77bb664816/-473Wx593H-467342285-multi-MODEL.jpg" },
+                    { name: "Women Embellished Saree", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240415/Y0sK/661d3eed16fd2c6e6ab1f006/-473Wx593H-467250998-purple-MODEL.jpg" },
+                    { name: "Women Printed Saree with Contrast Border", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/QRtl/66e836601d763220faeccb07/-473Wx593H-700429787-silver-MODEL.jpg" },
+                    { name: "Women Ready to Wear Half and Half Saree with Unstitched Blouse", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240618/fzYQ/667186241d763220fac857fd/-473Wx593H-467113465-peach-MODEL.jpg" },
+                    { name: "Women Banarasi Woven Saree with Contrast Border", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240913/MdbB/66e36c876f60443f31777ddf/-473Wx593H-700416469-green-MODEL2.jpg" },
+                    { name: "Women Ethnic Sarees", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240916/AqtY/66e748ef6f60443f317d0057/-473Wx593H-700427234-white-MODEL.jpg" }
+                ],
+		        kurti: [
+                    { name: "Women Foil Print A-Line Kurta", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20241004/GE8I/66ff9ae7f9b8ef490b936ef3/-473Wx593H-443058294-wine-MODEL.jpg" },
+                    { name: "Printed Flared Kurta", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20241025/YVkC/671b735ff9b8ef490bdfeb74/-473Wx593H-466165120-wine-MODEL.jpg" },
+                    { name: "Women Embroidery Anarkali Kurta", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20241207/O06t/67537b39c148fa1b3020712c/-473Wx593H-700889609-green-MODEL.jpg" },
+                    { name: "Women Embroidered Straight Kurta", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241021/rvCe/671683f4f9b8ef490bd08f6b/-473Wx593H-700624057-green-MODEL.jpg" },
+                    { name: "Woven Pattern kurthis", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20230602/ltg3/64798ab042f9e729d717667f/-473Wx593H-462516226-black-MODEL.jpg" },
+                    { name: "Women Embroidered A-Line Kurta", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240715/McdU/669527aa1d763220fab5222c/-473Wx593H-443051417-offwhite-MODEL.jpg" },
+                    { name: "Women Embroidered A-Line Kurta", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240217/xfVr/65d088ff16fd2c6e6a026981/-473Wx593H-467073724-teal-MODEL.jpg" },
+                    { name: "Floral Print Round-Neck Flared Kurta", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241025/3TJB/671b7521f9b8ef490be02574/-473Wx593H-465557428-purple-MODEL.jpg" }
+                ],
+                lehenga: [
+                    { name: "Women Embellished Flared Lehenga Choli Set", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240523/cFTV/664f6ea205ac7d77bb7409a6/-473Wx593H-700004260-green-MODEL.jpg" },
+                    { name: "Women Embellished Flared Lehenga Choli Set with Dupatta", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20241015/73LK/670e2edbf9b8ef490bba5b07/-473Wx593H-700584891-white-MODEL.jpg" },
+                    { name: "Women Embellished & Embroidery Lehenga Choli Set with Dupatta", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240911/II2t/66e1c81b6f60443f3171b193/-473Wx593H-700382512-pink-MODEL.jpg" },
+                    { name: "Women Lehenga Choli Set with Dupatta", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241006/EJ4Y/67027e05f9b8ef490b9a9bf0/-473Wx593H-700540929-white-MODEL.jpg" },
+                    { name: "Women Lehenga set", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240928/j6fH/66f719b1f9b8ef490b78a12e/-473Wx593H-466742251-turquoise-MODEL.jpg" },
+                    { name: "Women Embellished & Embroidered Flared Lehenga", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240304/80SH/65e4f8ba16fd2c6e6a389234/-473Wx593H-467130254-lavender-MODEL.jpg" },
+                    { name: "Women Embroidered Flared Lehenga Choli Set", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240926/AcR2/66f58f0a260f9c41e82e6a43/-473Wx593H-700467073-blue-MODEL.jpg" },
+                    { name: "Women  Lehenga Choli Set", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240221/dxnc/65d528c705ac7d77bb6b70ce/-473Wx593H-467093233-blue-MODEL.jpg" },
+                ]
+                   },
+        outerwear: {
+                Tracksuits: [
+                    { name: "Colourblock Training Tracksuit", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240613/b8MV/666cadb11d763220fab2540e/-473Wx593H-465293165-teal-MODEL.jpg" },
+                    { name: "Colourblock Running Tracksuit", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240714/pVhH/669317106f60443f31180660/-473Wx593H-462434657-purple-MODEL.jpg" },
+                    { name: "Women Regular Fit Colourblock Running Tracksuit", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20231120/OEFL/655b6366afa4cf41f5925dc5/-473Wx593H-466812241-rust-MODEL.jpg" },
+                    { name: "Women Slim Fit Outdoor Tracksuit", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241212/REJc/675aa81e0f47f80c87f358ee/-473Wx593H-700914087-pink-MODEL.jpg" }
+                ],
+		        Sporttops: [
+                    { name: "Women Ribbed Slim-Fit Top with Full Sleeves", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240703/Zfjq/668609a71d763220fac9f6cc/-473Wx593H-467269292-green-MODEL.jpg" },
+                    { name: "Women Lin Tank Top", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240624/8MXT/667984826f60443f3194839d/-473Wx593H-469626711-white-MODEL.jpg" },
+                    { name: "Women Slim Fit Top with Cut-Out Detail", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240718/S4ut/669850f76f60443f3167e0a2/-473Wx593H-467269573-blue-MODEL.jpg" },
+                    { name: "Women Printed Slim Fit Tank Top", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241013/XXM3/670b7accf9b8ef490bb14756/-473Wx593H-700571130-black-MODEL.jpg" }
+                ],
+                Joggers: [
+                    { name: "Women Lightly Washed Cargo Joggers", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20241021/LGy8/67165edbf9b8ef490bcf791c/-473Wx593H-442689754-blue-MODEL3.jpg" },
+                    { name: "Women Printed Regular Fit Joggers", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240610/vK0Y/66671ac616fd2c6e6a731467/-473Wx593H-442601460-pink-MODEL.jpg" },
+                    { name: "Women High-Rise Joggers with Cargo Pockets", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240407/wRIj/66129f2716fd2c6e6aa213ce/-473Wx593H-467233984-burgundy-MODEL.jpg" },
+                    { name: "Women Printed Regular Fit Joggers", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240305/PPnF/65e71ece16fd2c6e6a3cf51e/-473Wx593H-467138309-multi-MODEL.jpg" }
+                ]
+             },
+        accessories:{
+                Bags:[
+                    { name: "Women Washed Shoulder abg", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20241017/dqlU/67111b78f9b8ef490bc231c6/-473Wx593H-442691648-blue-MODEL.jpg" },
+                    { name: "Women Shoulder Bag with Metal Logo", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240510/YbdT/663e1bd605ac7d77bb509535/-473Wx593H-450162571-pink-MODEL.jpg" },
+                    { name: "Basha-Q Adjustable Strap Crossbody Bag", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240704/PqLW/66873de91d763220faeab87a/-473Wx593H-410486044-nvy-MODEL.jpg" },
+                    { name: "Burgentx Camo Crossbody Bag", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240112/OgzY/65a151a554c30e6276a6e39d/-473Wx593H-410345787-bne-MODEL.jpg" }
+                ],
+                bracelates:[
+                    { name: "Sterling Silver Stone-Studded Link Bracelet", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20230207/BqTw/63e1f6f4aeb269c6511488d8/-473Wx593H-6006298320-multi-MODEL.jpg" },
+                    { name: "Women Sterling Silver Rose Gold-Plated Celestial", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240507/R8Dq/663a3f7005ac7d77bb464f26/-473Wx593H-6006873040-multi-MODEL.jpg" },
+                    { name: "Set of 2 Stainless Steel Couple Bracelet", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20211012/sNhq/6164a663f997dd3ed46757a2/-473Wx593H-469022419-multi-MODEL.jpg" },
+                    { name: "Iron Charm Bracelet", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20221015/9oid/634a54dff997ddfdbd2ac86a/-473Wx593H-471005205-gold-MODEL.jpg" }
+                ],
+                slippers:[
+                    { name: "Women Embellished Thong-Strap Flip-Flops", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20240829/1ghl/66cf7e4e6f60443f3139cd0d/-473Wx593H-700336287-beige-MODEL.jpg" },
+                    { name: "Reptilian Patterned Back-Sling Block Heeled Sandals", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20230420/dzim/6441699e907deb497af76f6a/-473Wx593H-450152307-rosegold-MODEL.jpg" },
+                    { name: "Chunky-Heeled Slingback Sandals", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20230905/jKjT/64f7714fafa4cf41f5a8eaff/-473Wx593H-450132194-beige-MODEL.jpg" },
+                    { name: "Women Embellished Toe-Ring Chunky Heeled Sandals", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20240914/i7Tm/66e49a891d763220fae6e35d/-473Wx593H-700419126-gold-MODEL.jpg" }
+                ]
+            } 
+        };
+
+        function generateProducts(category) {
+            const container = document.getElementById('product-container');
+            container.innerHTML = '';
+            const categories = Object.keys(products);
+
+            categories.forEach(cat => {
+                if (typeof products[cat] === 'object' && !Array.isArray(products[cat])) {
+                    const subcategories = Object.keys(products[cat]);
+                    subcategories.forEach(subcat => {
+                        const section = document.createElement('section');
+                        section.classList.add('category');
+                        section.classList.add(`${cat}-${subcat}`);
+                        section.style.display = category === 'all' || category === cat || category === `${cat}-${subcat}` ? 'block' : 'none';
+
+                        section.innerHTML = `
+                            <h2>${cat.charAt(0).toUpperCase() + cat.slice(1)} - ${subcat.charAt(0).toUpperCase() + subcat.slice(1)}</h2>
+                            <div class="row">
+                                ${products[cat][subcat].map(item => `
+                                    <div class="col">
+                                        <a href="women-details.html?id=${encodeURIComponent(item.name)}">
+                                            <img src="${item.img}" alt="${item.name}">
+                                            <h3>${item.name}</h3>
+                                        </a>
+                                        <p class="price">$${item.price.toFixed(2)}</p>
+                                        <p class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</p>
+                                        <button class="btn buy-btn" style="background-color: cyan; color: black;" onclick="redirectToItemDetails('${item.name}')">Buy Now</button>
+                                        <button class="btn cart-btn" style="background-color: cyan; color: black;">Add to Cart</button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                        container.appendChild(section);
+                    });
+                } else {
+                    const section = document.createElement('section');
+                    section.classList.add('category');
+                    section.classList.add(cat);
+                    section.style.display = category === 'all' || category === cat ? 'block' : 'none';
+
+                    section.innerHTML = `
+                        <h2>${cat.charAt(0).toUpperCase() + cat.slice(1)}</h2>
+                        <div class="row">
+                            ${products[cat].map(item => `
+                                <div class="col">
+                                    <a href="women-details.html?id=${encodeURIComponent(item.name)}">
+                                        <img src="${item.img}" alt="${item.name}">
+                                        <h3>${item.name}</h3>
+                                    </a>
+                                    <p class="price">$${item.price.toFixed(2)}</p>
+                                    <p class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</p>
+                                    <button class="btn buy-btn" style="background-color: cyan; color: black;" onclick="redirectToItemDetails('${item.name}')">Buy Now</button>
+                                    <button class="btn cart-btn" style="background-color: cyan; color: black;">Add to Cart</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(section);
+                }
+            });
+        }
+
+        function redirectToItemDetails(itemName) {
+            // Redirect to item details page with the item name as a query parameter
+            window.location.href = `women-details.html?id=${encodeURIComponent(itemName)}`;
+        }
+
+        function filterCategory(category) {
+            generateProducts(category);
+        }
+
+        // Initialize page by displaying all products
+        generateProducts('all');
+    </script>
+</body>
+</html>

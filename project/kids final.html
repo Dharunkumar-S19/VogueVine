@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>VogueVine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #000000;
+            color: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000000;
+            color: cyan;
+            padding: 15px 20px;
+            border-bottom: 2px solid cyan;
+        }
+
+        .header-left h1 {
+            font-size: 26px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: cyan;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            padding: 8px;
+            border: 2px solid cyan;
+            border-radius: 5px;
+            background-color: #111;
+            color: cyan;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            padding: 8px 15px;
+            background-color: cyan;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #00b3b3;
+        }
+
+        .category-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .category-button {
+            background-color: cyan;
+            color: black;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .category-button:hover {
+            background-color: #00b3b3;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            overflow-y: auto;
+            max-height: calc(100vh - 150px);
+        }
+
+        .category {
+            margin-bottom: 40px;
+            display: none; /* Initially hide all categories */
+        }
+
+        .category h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: cyan;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .col {
+            width: 23%; /* Adjusted to show 4 items per row */
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #000000;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .col img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .col:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 255, 255, 0.3);
+            cursor: pointer;
+        }
+
+        .rating {
+            margin: 10px 0;
+            font-size: 18px;
+            color: gold;
+        }
+
+        .btn {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .buy-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .cart-btn {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #000000;
+            color: cyan;
+            border-top: 2px solid cyan;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>VogueVine</h1>
+        </div>
+        <div class="header-right">
+            <input type="text" placeholder="Search for products..." class="search-bar" id="search-bar">
+            <button class="search-button" onclick="searchProducts()">&#128269;</button>
+        </div>
+    </header>
+
+    <div class="category-buttons">
+        <button class="category-button" onclick="filterCategory('all')">All</button>
+        <button class="category-button" onclick="filterCategory('festive')">FESTIVE WEARS</button>
+        <button class="category-button" onclick="filterCategory('formal')">FORMAL WEARS</button>
+        <button class="category-button" onclick="filterCategory('casual')">CASUAL WEARSS</button>
+        <button class="category-button" onclick="filterCategory('party')">PARTY WERAS</button>
+        <button class="category-button" onclick="filterCategory('accessories')">Accessories</button>
+    </div>
+
+    <div class="container" id="product-container">
+        <!-- Categories will be generated dynamically here -->
+    </div>
+
+    <footer>
+        <p>&copy; 2024 VogueVine | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <script>
+         const products = {
+            festive: {
+                boys: [
+                    { name: "SHIRT AND DHOTI(white)", price: 29.99, img:"https://assets.ajio.com/medias/sys_master/root/20220330/Y1L8/6244959af997dd03e23da406/-473Wx593H-464094688-white-MODEL.jpg" },
+                    { name: "Mandarin Colar Printed long KURTA", price: 34.99, img:"https://assets.ajio.com/medias/sys_master/root/20230802/xaL6/64ca83daa9b42d15c987396c/-473Wx593H-466413739-maroon-MODEL.jpg"  },
+                    { name: "Embellished SHERWANI set", price: 27.99, img:"https://assets.ajio.com/medias/sys_master/root/20230624/p9tE/64967131a9b42d15c9de8e10/-473Wx593H-465378958-peach-MODEL.jpg"  },
+                    { name: "H&M Boys Pleated Suit Trousers", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20240829/wN8Y/66cf821e6f60443f3139f8aa/-473Wx593H-700322192-blue-MODEL.jpg" },
+                    { name: "JODHPURI Suit Set", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20240917/M6Dh/66e96c891d763220faeeea19/-473Wx593H-700433194-white-MODEL.jpg"  },
+                    { name: "Sanwara Full Sleeves Kurta Pyjama Set", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20231006/6bXD/65203639ddf7791519272f10/-473Wx593H-466681135-green-MODEL.jpg" },
+                    { name: "Woven Jodhpuri Jacket Set", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20230811/12VR/64d5639fa9b42d15c9a33a9d/-473Wx593H-466446644-cream-MODEL.jpg" },
+                    { name: "Golden SHERWANI Set", price: 31.99, img: "https://assets.ajio.com/medias/sys_master/root/20230621/tLnD/6492e188d55b7d0c639acbbc/-473Wx593H-464322452-gold-MODEL.jpg" }
+                    ],
+                girls: [
+                    { name: "KEDAR FAB Tie & dye Gown", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20240606/0jIn/6660c6f505ac7d77bba0ff07/-473Wx593H-700048628-pink-MODEL.jpg" },
+                    { name: "Thoilling printed Frog", price: 45.99, img: "https://assets.ajio.com/medias/sys_master/root/20231025/uz7x/65384597ddf77915195600ce/-473Wx593H-466742174-pink-MODEL.jpg" },
+                    { name: "FASHION FROG Floral Frog (red)", price: 52.99, img: "https://assets.ajio.com/medias/sys_master/root/20230619/aSSS/6490578fd55b7d0c63749279/-473Wx593H-466286604-pink-MODEL5.jpg" },
+                    { name: "FASHION DREAM pink Frog", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240726/yz29/66a2a90f1d763220fa2b4e42/-473Wx593H-700227816-pink-MODEL.jpg" },
+                    { name: "Aarya Designers Floral and Flare Dress", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20231024/3HId/65374653ddf779151954d792/-473Wx593H-466695399-pink-MODEL.jpg" },
+                    { name: "Avsar Trends Round Neck Frog", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240723/96SH/669fb1a36f60443f319c3dbd/-473Wx593H-700223201-pink-MODEL.jpg" },
+                    { name: "Green Printed Frog", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20230620/ds7H/6491837042f9e729d7501818/-473Wx593H-466292001-green-MODEL3.jpg" },
+                    { name: "Blue and While Printed Frog", price: 47.99, img: "https://assets.ajio.com/medias/sys_master/root/20240716/r7DJ/66958fb26f60443f314053f5/-473Wx593H-700192259-white-MODEL2.jpg" }
+                ]
+            },
+            formal: {          boys: [
+                    
+      { name: "H&M Suit Trousers", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20240829/ZunQ/66cf84d41d763220faa9535a/-473Wx593H-700322192-blue-MODEL3.jpg" },
+                    { name: "BRUCEWANE Shirt", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20231003/S7QO/651c4273afa4cf41f51e97ca/-473Wx593H-466657417-red-MODEL.jpg" },
+                    { name: "POLO Printed Forml Shirt", price: 64.99, img: "https://assets.ajio.com/medias/sys_master/root/20230623/IRMO/6495176dd55b7d0c63b18511/-473Wx593H-464743829-white-MODEL3.jpg" },
+                    { name: "Striped BRUCEWANE Shirt", price: 62.99, img: "https://assets.ajio.com/medias/sys_master/root/20230925/3wvs/6511a84dafa4cf41f507b8de/-473Wx593H-466623850-white-MODEL.jpg" }
+                ],
+                girls: [
+                    { name: "ADDYVERO Soild Fit&Flare Dress", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20230621/zhUA/64928748d55b7d0c638ffe07/-473Wx593H-464153498-black-MODEL.jpg" },
+                    { name: "Ahalyaa kids Empire dress for girls", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240702/X7Xu/668307911d763220fa99f2b2/-473Wx593H-700148885-offwhite-MODEL.jpg" },
+                    { name: "Hellcat full Sleeves", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20240821/l52f/66c541d16f60443f31197d25/-473Wx593H-700305334-pink-MODEL.jpg" },
+                    { name: "BownBee Girls Jaipuri Top and Dhoti pants", price: 39.99, img: "https://assets.ajio.com/medias/sys_master/root/20201110/i392/5faab6ecf997dd8c83936e13/-473Wx593H-460776400-blue-MODEL.jpg" }
+                   ]
+            },
+            casual: {
+                boys: [
+                    { name: "RUNSTARS Hoodie", price: 19.99, img: "https://assets.ajio.com/medias/sys_master/root/20240930/4LdW/66fac4b3260f9c41e845c50f/-473Wx593H-700517025-greymelange-MODEL.jpg" },
+                    { name: "HIBKI kids casuals Set", price: 18.99, img: "https://assets.ajio.com/medias/sys_master/root/20241010/BqQ3/6707d8d9f9b8ef490bac0ae5/-473Wx593H-700562302-blue-MODEL.jpg" },
+                    { name: "Boys Bomber Jacket", price: 22.99, img: "https://assets.ajio.com/medias/sys_master/root/20240103/lJpD/65946965ddf7791519fd646c/-473Wx593H-466933992-black-MODEL.jpg" },
+                    { name: "PUMA Striped Regular Fit neck T-SHIRT", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240715/uW7X/669514c91d763220fab3cf2a/-473Wx593H-700190919-red-MODEL.jpg" },
+                    { name: "Regular Fit POLO T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240825/pAfI/66cab7c71d763220fa983857/-473Wx593H-700319335-blue-MODEL.jpg" },
+                    { name: "Panelled Round Neck T-Shirt", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20211120/UBlR/6197f120f997ddf8f1104be4/-473Wx593H-461372179-blue-MODEL.jpg" },
+                    { name: "Graphic T-shirt Pink", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20241108/WmrN/672e2419f9b8ef490b0e7d2a/-473Wx593H-700719390-pink-MODEL2.jpg" },
+                    { name: "Boys Regular Jacket", price: 20.99, img: "https://assets.ajio.com/medias/sys_master/root/20240927/gJ80/66f672a4f9b8ef490b7247c2/-473Wx593H-700494730-lavender-MODEL.jpg" }
+                ],
+                
+                girls: [
+                    { name: "Trampoline Sweatshirt and pyjama set", price: 29.99, img: "https://assets.ajio.com/medias/sys_master/root/20241015/QbQz/670e721ff9b8ef490bbaea72/-473Wx593H-700503523-pink-MODEL.jpg" },
+                    { name: "MILATRA FASHION Girls Printed Set", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20241128/gWXL/6748302ac148fa1b30f26f31/-473Wx593H-700817390-multi-MODEL.jpg" },
+                    { name: "Graphic SWEATSHIRT", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20231027/jvWP/653abe8eddf77915195d1853/-473Wx593H-466750329-multi-MODEL.jpg" },
+                    { name: "RIO Girls Striped regular Fit top", price: 37.99, img: "https://assets.ajio.com/medias/sys_master/root/20231213/OSZ0/6579c3acddf7791519cac3ae/-473Wx593H-443028166-ltpink-MODEL.jpg" },
+                    { name: "Printed NIGHTWEAR Set", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20230628/TdWH/649b4a47eebac147fc0e7d8c/-473Wx593H-465600848-green-MODEL.jpg" },
+                    { name: "Girls Typographic Print Hoodie and Joggers Set", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240105/0Ry3/65970a5474cb305fe003c7e1/-473Wx593H-466949764-multi-MODEL.jpg" },
+                    { name: "Girls Floral Flare Dress", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20240624/sIy1/667984ef6f60443f319486c4/-473Wx593H-443046390-purple-MODEL.jpg"},
+                    { name: "Women Denim Dungaree", price: 34.99, img: "https://assets.ajio.com/medias/sys_master/root/20241009/JXf3/670677cd260f9c41e8670ca7/-473Wx593H-443055498-ltblue-MODEL.jpg"}
+                ]},
+            party: {
+                boys : [
+                    { name: "H&M Boys Pleated Suit Trousers", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20240829/wN8Y/66cf821e6f60443f3139f8aa/-473Wx593H-700322192-blue-MODEL.jpg" },
+                    { name: "KISAH Kurta", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20231122/SjNR/655e2dadafa4cf41f59945af/-473Wx593H-466819612-green-MODEL.jpg" },
+                    { name: "Sanwara Pujama Set", price: 25.99, img: "https://assets.ajio.com/medias/sys_master/root/20231007/ELJG/652087baddf779151928a703/-473Wx593H-466682264-red-MODEL.jpg" },
+                    { name: "The Magic Wand Fit Shirt", price: 22.99, img: "https://assets.ajio.com/medias/sys_master/root/20241009/e4VQ/67064443f9b8ef490ba562b8/-473Wx593H-700557835-mustard-MODEL.jpg" }
+                  ],
+                girls: [
+                    { name: "Thoilling Girl Florat Line Dress", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20231025/kvR6/65386e4eddf779151956518c/-473Wx593H-466742795-pink-MODEL.jpg" },
+                    { name: "DEKLOOK Girls Bodycon Dress", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20240702/GEO8/6683e7486f60443f31298a2b/-473Wx593H-700151646-pink-MODEL.jpg" },
+                    { name: "NEUDIS Girls Round-Neck Top with Pants", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20240405/x2lh/660f2da516fd2c6e6a9e9cee/-473Wx593H-467188432-pink-MODEL.jpg" },
+                    { name: "Girls Praty Kurta", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241204/qcYm/674fda79c148fa1b3012aa25/-473Wx593H-700871851-lavender-MODEL.jpg" },
+                    { name: "Cutcumber Embellished Shift Dress", price: 40.99, img: "https://assets.ajio.com/medias/sys_master/root/20241201/2rir/674b7925c148fa1b30009e83/-473Wx593H-700834530-pink-MODEL.jpg" },
+                    { name: "PTVIZE party Bodycon Dress", price: 44.99, img: "https://assets.ajio.com/medias/sys_master/root/20241015/afgd/670e43e1260f9c41e87912cf/-473Wx593H-700548796-black-MODEL.jpg" },
+                    { name: "Lilpicks Fit & Flare Gown", price: 42.99, img: "https://assets.ajio.com/medias/sys_master/root/20230629/EAVl/649cca6da9b42d15c91addf9/-473Wx593H-466054345-pink-MODEL.jpg" },
+                    { name: "DYWER Girls Fit Blazer", price: 41.99, img: "https://assets.ajio.com/medias/sys_master/root/20241104/FNbc/67289350f9b8ef490bfeeca5/-473Wx593H-700700573-maroon-MODEL.jpg" }
+                ]
+            },
+            accessories:{
+                ITEMS: [
+                    { name: "KIDSVILLE Spyder Shoes", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20241122/6yZk/674047bec148fa1b30e1b060/-473Wx593H-700789181-multi-MODEL.jpg" },
+                    { name: "SKYLONA Chronograph Wrist Watch with Meshed Strap", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20230930/YI2E/651750ddddf7791519103694/-473Wx593H-466652259-black-MODEL.jpg" },
+                    { name: "Washed Cotton Hat", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20211009/iHmA/61609c77aeb2692b85bd18ed/-473Wx593H-410258730-navy-MODEL.jpg" },
+                    { name: "Pack of 2 Striped Mittens", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20230221/L9mN/63f4e583aeb26924e38115a0/-473Wx593H-410266662-multi-MODEL2.jpg" },
+                    { name: "ADIDAS BackPack", price: 59.99, img: "https://assets.ajio.com/medias/sys_master/root/20241106/hT2G/672b5560f9b8ef490b0611e5/-473Wx593H-410460624-art2-MODEL.jpg" },
+                    { name: "Mactree Shoes", price: 49.99, img: "https://assets.ajio.com/medias/sys_master/root/20240906/28Ho/66db2cd91d763220facd2e4f/-473Wx593H-700308376-black-MODEL.jpg" },
+                    { name: "Sterling Silver Bangle Ring", price: 35.99, img: "https://assets.ajio.com/medias/sys_master/root/20230906/sSD4/64f8973eafa4cf41f5c32c7f/-473Wx593H-6006454680-multi-MODEL.jpg" },
+                    { name: "Men Brass Bracelet", price: 69.99, img: "https://assets.ajio.com/medias/sys_master/root/20241029/Sp5N/6720bac1f9b8ef490bee71f1/-473Wx593H-700670087-white-MODEL3.jpg" }
+                ]
+            }
+        };
+
+        function generateProducts(category) {
+            const container = document.getElementById('product-container');
+            container.innerHTML = '';
+            const categories = Object.keys(products);
+
+            categories.forEach(cat => {
+                if (typeof products[cat] === 'object' && !Array.isArray(products[cat])) {
+                    const subcategories = Object.keys(products[cat]);
+                    subcategories.forEach(subcat => {
+                        const section = document.createElement('section');
+                        section.classList.add('category');
+                        section.classList.add(`${cat}-${subcat}`);
+                        section.style.display = category === 'all' || category === cat || category === `${cat}-${subcat}` ? 'block' : 'none';
+
+                        section.innerHTML = `
+                            <h2>${cat.charAt(0).toUpperCase() + cat.slice(1)} - ${subcat.charAt(0).toUpperCase() + subcat.slice(1)}</h2>
+                            <div class="row">
+                                ${products[cat][subcat].map(item => `
+                                    <div class="col">
+                                        <a href="kids-details.html?id=${encodeURIComponent(item.name)}">
+                                            <img src="${item.img}" alt="${item.name}">
+                                            <h3>${item.name}</h3>
+                                        </a>
+                                        <p class="price">$${item.price.toFixed(2)}</p>
+                                        <p class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</p>
+                                        <button class="btn buy-btn" style="background-color: cyan; color: black;" onclick="redirectToItemDetails('${item.name}')">Buy Now</button>
+                                        <button class="btn cart-btn" style="background-color: cyan; color: black;">Add to Cart</button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                        container.appendChild(section);
+                    });
+                } else {
+                    const section = document.createElement('section');
+                    section.classList.add('category');
+                    section.classList.add(cat);
+                    section.style.display = category === 'all' || category === cat ? 'block' : 'none';
+
+                    section.innerHTML = `
+                        <h2>${cat.charAt(0).toUpperCase() + cat.slice(1)}</h2>
+                        <div class="row">
+                            ${products[cat].map(item => `
+                                <div class="col">
+                                    <a href="kids-details.html?id=${encodeURIComponent(item.name)}">
+                                        <img src="${item.img}" alt="${item.name}">
+                                        <h3>${item.name}</h3>
+                                    </a>
+                                    <p class="price">$${item.price.toFixed(2)}</p>
+                                    <p class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</p>
+                                    <button class="btn buy-btn" style="background-color: cyan; color: black;" onclick="redirectToItemDetails('${item.name}')">Buy Now</button>
+                                    <button class="btn cart-btn" style="background-color: cyan; color: black;">Add to Cart</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(section);
+                }
+            });
+        }
+
+        function redirectToItemDetails(itemName) {
+            // Redirect to item details page with the item name as a query parameter
+            window.location.href = `kids-details.html?id=${encodeURIComponent(itemName)}`;
+        }
+
+        function filterCategory(category) {
+            generateProducts(category);
+        }
+
+        // Initialize page by displaying all products
+        generateProducts('all');
+    </script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fashion E-Commerce</title>
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        header {
+            background: linear-gradient(90deg, #00ffff, #009999);
+            color: #fff;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        header nav ul li {
+            margin: 0 10px;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        header nav ul li a:hover {
+            color: #00ffff;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 60px;
+            height: 100vh;
+            background: #121212;
+        }
+
+        /* Left side: Categories */
+        .categories {
+            width: 250px; /* Increased width */
+            background: linear-gradient(135deg, #00ffff, #009999);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 20px;
+        }
+
+        .categories h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000;
+            font-size: 1.5rem;
+        }
+
+        .categories ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .categories ul li {
+            display: flex;
+            justify-content: center;
+        }
+
+        .categories ul li button {
+            width: 100%;
+            padding: 15px;
+            background-color: #00ffff;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: glitter 1s infinite;
+        }
+
+        .categories ul li button:hover {
+            background-color: #009999;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Right side: Image, Name, and Login */
+        .right-side {
+            width: calc(100% - 250px); /* Adjusted width based on left section */
+            background-color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+            position: relative;
+        }
+
+        .right-side img {
+            width: 100%; /* Make image full width */
+            height: 100vh; /* Make image full height */
+            object-fit: cover; /* Ensure the image covers the area without distortion */
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .website-name {
+            font-family: 'Roboto', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            background: #00ffff;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Popup (Modal) */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .popup-content {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            animation: glitter 1s infinite;
+        }
+
+        .popup-content h3 {
+            color: #00ffff;
+            font-size: 2rem;
+        }
+
+        .popup-content button {
+            background-color: #00ffff;
+            color: #000;
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .popup-content button:hover {
+            background-color: #009999;
+        }
+
+        @keyframes glitter {
+            0% { text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; }
+            50% { text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff; }
+            100% { text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <div class="container">
+            <h1>Fashion Hub</h1>
+            <div class="navbar-right">
+                <nav>
+                    <ul>
+                        <li><a href="homepage.html">Home</a></li> <!-- Added Home link -->
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Service</a></li>
+                        <li><a href="#">Feedback</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout: 75% right and 25% left -->
+    <div class="main-layout">
+        <!-- Left side: Categories -->
+            <div class="categories">
+                <h2>Explore Styles</h2>
+                <ul>
+                    <li><button onclick="navigateToPage('men.html')">FOR MENS</button></li>
+                    <li><button onclick="navigateToPage('women.html')">FOR WOMEN</button></li>
+                    <li><button onclick="navigateToPage('kids.html')">FOR KIDS</button></li>
+                </ul>
+                <button class="glitter-btn">Discover More</button>
+            </div>
+    </div>
+
+        <!-- Right side: Image, Name, and Login -->
+        <div class="right-side">
+            <img src="https:" alt="Website Image">
+            <h1 class="website-name">Fashion Hub</h1>
+        </div>
+    <script>
+        function openPopup(category) {
+            document.getElementById('popup-title').textContent = category + ' Dresses';
+            document.getElementById('popup').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
